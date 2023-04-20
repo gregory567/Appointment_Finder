@@ -12,3 +12,5 @@ class Appointment {
         $this->ablaufDatum = $ablaufDatum;
     }
 }
+
+?>
