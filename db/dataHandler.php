@@ -1,6 +1,6 @@
 <?php
 include("./models/appointment.php");
-include("./dbaccess.php"); //to retrieve connection details
+//include("./dbaccess.php"); //to retrieve connection details
 
 
 /*
@@ -59,15 +59,29 @@ class DataHandler
         $this->conn = $dbconn;
     }
     */
+
+    private $conn;
+    public function __construct()
+    {
+
+        $this->conn = new mysqli("localhost", "bif2webscriptinguser", "bif2021", "appointment_finder");
+        if ($this->conn->connect_error) {
+            die("Connection failed. Error in DB connection: ". $this->conn->connect_errno ." : ". $this->conn->connect_error); 
+            exit();
+        } else {
+            echo "Connected successfully";
+        }
+    }
     
 
     public function queryAppointments()
     {
-    
+        /*
         $res =  $this->getDemoData();
         return $res;
+        */
         
-        /*
+        
         // SELECT from table "appointment" to display all appointments
         $sql = "SELECT * FROM `appointment`";
         $stmt = $this->conn ->prepare($sql);
@@ -81,7 +95,7 @@ class DataHandler
         }
 
         return $result;
-        */
+        
         
     }
 
