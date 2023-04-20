@@ -28,12 +28,6 @@ function loadAllAppointments() {
             table += "</tbody></table>";
             $("#appointmentList").html(table);
 
-            // add an event listener for the "click" event to each button
-            $(".choose-btn").on("click", function() {
-                var appointmentId = $(this).closest("tr").find("td:first-child").text();
-                console.log("Selected appointment ID: " + appointmentId);
-            });
-
             console.log("appointment list ready");
         }
         
