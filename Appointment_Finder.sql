@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 19, 2023 at 01:10 PM
+-- Generation Time: Apr 19, 2023 at 01:43 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -96,19 +96,22 @@ ALTER TABLE `Appointment`
 -- Indexes for table `Gebucht`
 --
 ALTER TABLE `Gebucht`
-  ADD PRIMARY KEY (`FK_TermID_ID`,`FK_User_ID`);
+  ADD PRIMARY KEY (`FK_TermID_ID`,`FK_User_ID`),
+  ADD KEY `constrFK_User_ID` (`FK_User_ID`);
 
 --
 -- Indexes for table `Kommentiert`
 --
 ALTER TABLE `Kommentiert`
-  ADD PRIMARY KEY (`FK_User_ID`,`FK_App_ID`);
+  ADD PRIMARY KEY (`FK_User_ID`,`FK_App_ID`),
+  ADD KEY `constrFK_App_ID` (`FK_App_ID`);
 
 --
 -- Indexes for table `Termin`
 --
 ALTER TABLE `Termin`
-  ADD PRIMARY KEY (`Termin_ID`);
+  ADD PRIMARY KEY (`Termin_ID`),
+  ADD KEY `contrFK_App_ID` (`FK_App_ID`);
 
 --
 -- Indexes for table `User`
@@ -137,6 +140,30 @@ ALTER TABLE `Termin`
 --
 ALTER TABLE `User`
   MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `Gebucht`
+--
+ALTER TABLE `Gebucht`
+  ADD CONSTRAINT `constrFK_Term_ID` FOREIGN KEY (`FK_TermID_ID`) REFERENCES `Termin` (`Termin_ID`),
+  ADD CONSTRAINT `constrFK_User_ID` FOREIGN KEY (`FK_User_ID`) REFERENCES `User` (`User_ID`);
+
+--
+-- Constraints for table `Kommentiert`
+--
+ALTER TABLE `Kommentiert`
+  ADD CONSTRAINT `constrFK_App_ID` FOREIGN KEY (`FK_App_ID`) REFERENCES `Appointment` (`App_ID`),
+  ADD CONSTRAINT `constrFK_User_ID_2` FOREIGN KEY (`FK_User_ID`) REFERENCES `User` (`User_ID`);
+
+--
+-- Constraints for table `Termin`
+--
+ALTER TABLE `Termin`
+  ADD CONSTRAINT `contrFK_App_ID` FOREIGN KEY (`FK_App_ID`) REFERENCES `Appointment` (`App_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
