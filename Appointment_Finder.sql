@@ -20,6 +20,10 @@ SET time_zone = "+00:00";
 --
 -- Database: `Appointment_Finder`
 --
+DROP DATABASE IF EXISTS `Appointment_Finder`;
+CREATE DATABASE IF NOT EXISTS `Appointment_Finder` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+
 
 -- --------------------------------------------------------
 
