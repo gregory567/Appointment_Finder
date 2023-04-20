@@ -1,12 +1,12 @@
 <?php
 class Appointment {
-    public $id;
+    public $appId;
     public $titel;
     public $ort;
     public $ablaufDatum;
 
-    function __construct($id, $titel, $ort, $ablaufDatum) {
-        $this->id = $id;
+    function __construct($appId, $titel, $ort, $ablaufDatum) {
+        $this->appId = $appId;
         $this->titel = $titel;
         $this->ort = $ort;
         $this->ablaufDatum = $ablaufDatum;
