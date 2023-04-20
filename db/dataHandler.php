@@ -1,6 +1,12 @@
 <?php
 include("./models/appointment.php");
 
+// require access data to DB and build up connection to DB
+require_once('./dbaccess.php'); //to retrieve connection details
+$conn = new mysqli($host, $user, $password, $database);
+if ($conn->connect_error) {
+    die("Connection failed. Error in DB connection: ". $conn->connect_errno ." : ". $conn->connect_error); 
+}
 
 
 class DataHandler
