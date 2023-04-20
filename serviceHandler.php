@@ -30,3 +30,5 @@ function response($method, $httpStatus, $data)
             echo ("Method not supported yet!");
     }
 }
+
+?>

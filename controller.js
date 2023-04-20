@@ -27,6 +27,8 @@ function loadAllAppointments() {
             });
             table += "</tbody></table>";
             $("#appointmentList").html(table);
+            
+            console.log("appointment list ready");
         }
         
     });

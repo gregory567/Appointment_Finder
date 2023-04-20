@@ -51,3 +51,5 @@ class DataHandler
         return $demodata;
     }
 }
+
+?>
