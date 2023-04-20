@@ -1,6 +1,9 @@
 <?php
 include("./models/appointment.php");
+include("./dbaccess.php"); //to retrieve connection details
 
+
+/*
 // require access data to DB and build up connection to DB
 require_once('./dbaccess.php'); //to retrieve connection details
 $dbconn = new mysqli($host, $user, $password, $database);
@@ -35,11 +38,8 @@ echo "Database is set to: " . $database . "<br>";
 } else {
 echo "Database is not set.<br>";
 }
+*/
 
-
-
-
-  
 
 /*
 INSERT INTO `appointment` (`Titel`, `Ort`, `Ablaufdatum`) VALUES ('Fussball Training', 'Platz 1', '2023-04-20');
@@ -59,10 +59,11 @@ class DataHandler
         $this->conn = $dbconn;
     }
     */
+    
 
     public function queryAppointments()
     {
-        
+    
         $res =  $this->getDemoData();
         return $res;
         
@@ -81,6 +82,7 @@ class DataHandler
 
         return $result;
         */
+        
     }
 
 
