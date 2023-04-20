@@ -1,17 +1,17 @@
 <?php
-include("./models/person.php");
+include("./models/appointment.php");
 class DataHandler
 {
-    public function queryPersons()
+    public function queryAppointments()
     {
         $res =  $this->getDemoData();
         return $res;
     }
 
-    public function queryPersonById($id)
+    public function queryAppointmentById($id)
     {
         $result = array();
-        foreach ($this->queryPersons() as $val) {
+        foreach ($this->queryAppointments() as $val) {
             if ($val->id == $id) {
                 array_push($result, $val);
             }
@@ -19,21 +19,21 @@ class DataHandler
         return $result;
     }
 
-    public function queryPersonByName($name)
+    public function queryAppointmentByTitel($titel)
     {
         $result = array();
-        foreach ($this->queryPersons() as $val) {
-            if ($val->lastname == $name) {
+        foreach ($this->queryAppointments() as $val) {
+            if ($val->titel == $titel) {
                 array_push($result, $val);
             }
         }
         return $result;
     }
 
-    public function querySuggestion($name) {
+    public function querySuggestion($titel) {
         $result = array();
-        foreach($this->queryPersons() as $val) {
-            if (str_contains($val->firstname, $name)) {
+        foreach($this->queryAppointments() as $val) {
+            if (str_contains($val->titel, $titel)) {
                 array_push($result, $val);
             }
         }
@@ -43,10 +43,10 @@ class DataHandler
     private static function getDemoData()
     {
         $demodata = [
-            new Person(1, "Jane", "Doe", "jane.doe@fhtw.at", 1234567, "Central IT"),
-            new Person(2, "John", "Doe", "john.doe@fhtw.at", 34345654, "Help Desk"),
-            new Person(3, "baby", "Doe", "baby.doe@fhtw.at", 54545455, "Management"),
-            new Person(4, "Mike", "Smith", "mike.smith@fhtw.at", 343477778, "Faculty"),
+            new Appointment(1, "Fussball Training", "Platz 1", 04-20-2023),
+            new Appointment(2, "Buchbörse", "Bibliothek", 04-20-2023),
+            new Appointment(3, "Film", "Kino", 04-20-2023),
+            new Appointment(4, "Konzert", "Konzerthaus", 04-20-2023),
         ];
         return $demodata;
     }
