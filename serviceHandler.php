@@ -11,8 +11,7 @@ $logic = new SimpleLogic();
 $result = $logic->handleRequest($method, $param);
 if ($result == "test") {
     response("GET", 404, null);
-}
-else if ($result == null) {
+} else if ($result == null) {
     response("GET", 400, null);
 } else {
     response("GET", 200, $result);

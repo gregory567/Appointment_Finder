@@ -3,58 +3,16 @@
 
 //Starting point for JQuery init
 $(document).ready(function () {
+    console.log("document loaded");
     loadAllAppointments();
 });
-
-/*
-function loaddata_ByName(searchterm) {
-
-    $.ajax({
-        type: "GET",
-        url: "./serviceHandler.php",
-        cache: false,
-        data: {method: "queryPersonByName", param: searchterm},
-        dataType: "json",
-        success: function (response) {            
-            $("#noOfentries").val(response.length);
-
-            let table = $("<table>"); // create the table element
-            let head = $("<thead>");
-            let body = $("<tbody>");
-
-            // create the table header
-            head.append($("<tr>"));
-            head.append($("<th>").text("First Name"));
-            head.append($("<th>").text("Last Name"));
-            head.append($("<th>").text("ID"));
-
-            // create the table rows
-            $.each(response, function(i, v) {
-                let row = body.append($("<tr>"));
-                $("<td>").text(v.firstname).appendTo(row);
-                $("<td>").text(v.lastname).appendTo(row);
-                $("<td>").text(v.id).appendTo(row);
-            });
-
-            // assemble the table and add it to the DOM
-            table.append(head).append(body);
-            $("#entries_byName").empty().append(table);
-            $("#searchResult").show(1000).delay(3000).hide(1000);
-
-            $.each(response, function(i, v) {
-                console.log(v.firstname + " " + v.lastname + " (id=" + v.id + ")");
-            });
-        }
-        
-    });
-}
-*/
 
 
 function loadAllAppointments() {
 
     // Clear the contents of the appointmentList div
     $('#appointmentList').empty();
+    console.log("appointment list empty");
 
     $.ajax({
         type: "GET",

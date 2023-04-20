@@ -43,10 +43,10 @@ class DataHandler
     private static function getDemoData()
     {
         $demodata = [
-            new Appointment(1, "Fussball Training", "Platz 1", 04-20-2023),
-            new Appointment(2, "Buchbörse", "Bibliothek", 04-20-2023),
-            new Appointment(3, "Film", "Kino", 04-20-2023),
-            new Appointment(4, "Konzert", "Konzerthaus", 04-20-2023),
+            new Appointment(1, "Fussball Training", "Platz 1", "04-20-2023"),
+            new Appointment(2, "Buchbörse", "Bibliothek", "04-20-2023"),
+            new Appointment(3, "Film", "Kino", "04-20-2023"),
+            new Appointment(4, "Konzert", "Konzerthaus", "04-20-2023"),
         ];
         return $demodata;
     }
