@@ -6,7 +6,7 @@ class SimpleLogic
     private $dh;
     function __construct()
     {
-        $this->dh = new DataHandler();
+        $this->dh = new DataHandler($host, $user, $password, $database);
     }
 
     function handleRequest($method, $param)

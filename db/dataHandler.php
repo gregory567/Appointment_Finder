@@ -1,6 +1,6 @@
 <?php
 include("./models/appointment.php");
-//include("./dbaccess.php"); //to retrieve connection details
+//require_once("./dbaccess.php"); //to retrieve connection details
 
 
 /*
@@ -51,25 +51,23 @@ INSERT INTO `appointment` (`Titel`, `Ort`, `Ablaufdatum`) VALUES ('Konzert', 'Ko
 
 class DataHandler
 {
-    /*
     private $conn;
+    private $host;
+    private $user;
+    private $password;
+    private $database;
 
-    public function __construct()
+    public function __construct($host, $user, $password, $database)
     {
-        $this->conn = $dbconn;
-    }
-    */
+        $this->host = $host;
+        $this->user = $user;
+        $this->password = $password;
+        $this->database = $database;
 
-    private $conn;
-    public function __construct()
-    {
-
-        $this->conn = new mysqli("localhost", "bif2webscriptinguser", "bif2021", "appointment_finder");
+        $this->conn = new mysqli($this->host, $this->user, $this->password, $this->database);
         if ($this->conn->connect_error) {
             die("Connection failed. Error in DB connection: ". $this->conn->connect_errno ." : ". $this->conn->connect_error); 
             exit();
-        } else {
-            echo "Connected successfully";
         }
     }
     
