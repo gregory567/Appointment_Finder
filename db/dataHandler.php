@@ -1,44 +1,6 @@
 <?php
 include("./models/appointment.php");
-//require_once("./dbaccess.php"); //to retrieve connection details
-
-
-/*
-// require access data to DB and build up connection to DB
-require_once('./dbaccess.php'); //to retrieve connection details
-$dbconn = new mysqli($host, $user, $password, $database);
-if ($dbconn->connect_error) {
-    die("Connection failed. Error in DB connection: ". $dbconn->connect_errno ." : ". $dbconn->connect_error); 
-    exit();
-} else {
-    echo "Connected successfully";
-}
-
-
-if (isset($host)) {
-echo "Host is set to: " . $host . "<br>";
-} else {
-echo "Host is not set.<br>";
-}
-
-if (isset($user)) {
-echo "User is set to: " . $user . "<br>";
-} else {
-echo "User is not set.<br>";
-}
-
-if (isset($password)) {
-echo "Password is set to: " . $password . "<br>";
-} else {
-echo "Password is not set.<br>";
-}
-
-if (isset($database)) {
-echo "Database is set to: " . $database . "<br>";
-} else {
-echo "Database is not set.<br>";
-}
-*/
+require_once("./dbaccess.php"); //to retrieve connection details
 
 
 /*

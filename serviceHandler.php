@@ -7,7 +7,7 @@ $method = "";
 isset($_GET["method"]) ? $method = $_GET["method"] : false;
 isset($_GET["param"]) ? $param = $_GET["param"] : false;
 
-$logic = new SimpleLogic();
+$logic = new SimpleLogic($host, $user, $password, $database);
 $result = $logic->handleRequest($method, $param);
 if ($result === null) {
     response("GET", 400, null);
