@@ -1,5 +1,6 @@
 <?php
 include("./models/appointment.php");
+include("./models/termin.php");
 require_once("./dbaccess.php"); //to retrieve connection details
 
 
@@ -9,7 +10,7 @@ INSERT INTO `appointment` (`Titel`, `Ort`, `Ablaufdatum`) VALUES ('Buchbörse', 
 INSERT INTO `appointment` (`Titel`, `Ort`, `Ablaufdatum`) VALUES ('Film', 'Kino', '2023-04-20');
 INSERT INTO `appointment` (`Titel`, `Ort`, `Ablaufdatum`) VALUES ('Konzert', 'Konzerthaus', '2023-04-20');
 */
-
+    
 
 class DataHandler
 {
@@ -43,7 +44,7 @@ class DataHandler
         
         
         // SELECT from table "appointment" to display all appointments
-        $sql = "SELECT * FROM `appointment`";
+        $sql = "SELECT * FROM `Appointment`";
         $stmt = $this->conn ->prepare($sql);
         $stmt->execute();
         $res = $stmt->get_result();
@@ -59,7 +60,7 @@ class DataHandler
         
     }
 
-
+/*
     public function queryAppointmentById($id)
     {
         $result = array();
@@ -70,7 +71,25 @@ class DataHandler
         }
         return $result;
     }
+*/
+    public function queryDates($App_ID) {
+        $sql = "SELECT *  FROM `Termin` WHERE `FK_App_ID` = $App_ID";
+        $stmt = $this->conn ->prepare($sql);
+        $stmt->execute();
+        $res = $stmt->get_result();
 
+        $result = array();
+        while ($row = $res->fetch_assoc()) {
+            $termin = new Termin($row['Termin_ID'], $row['Datum'], $row['Uhrzeit_von'], $row['Uhrzeit_bis'],$row['FK_App_ID']);
+            array_push($result, $termin);
+        }
+
+        return $result;
+    }
+
+
+}
+/*
     public function queryAppointmentByTitel($titel)
     {
         $result = array();
@@ -101,7 +120,6 @@ class DataHandler
             new Appointment(4, "Konzert", "Konzerthaus", "20-04-2023"),
         ];
         return $demodata;
-    }
-}
+    }*/
 
 ?>
