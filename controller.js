@@ -1,54 +1,47 @@
-
-
-
 //Starting point for JQuery init
 $(document).ready(function () {
     console.log("document loaded");
     loadAllAppointments();
 });
 
+
+//loads and shows dates of the chosen appointment after the show button is clicked
 function showDates(appId) {
 
-    //$('#button.ID').empty();
-
-    var buttonText = $('#button'+appointmentId).text();
-    console.log(buttonText);
-    
-    $('#button'+appointmentId).attr(onclick, function(){
-        if (buttonText == "Show Dates") {
-            $('#button'+appointmentId).text('Hide');
-        } else {
-            $('#button'+appointmentId).text('Show Dates');        
-        }
-        
-        
-    });
-
-
     console.log(appId);
-    $.ajax({
-        type: "GET",
-        url: "./serviceHandler.php",
-        cache: false,
-        //this.id = App_ID
-        data: {method: "queryDates",param: appId},
-        dataType: "json",
-        success: function (response) {
-            var table = "<table><thead><tr><th>Datum</th><th>Von</th><th>Bis</th><th></th></tr></thead><tbody>";
-            $.each(response, function(i, v) {
-                table += "<tr><td>" + v.Datum + "</td><td>" + v.Uhrzeit_von + "</td><td>" + v.Uhrzeit_bis +
-                 "</td><td><input type='checkbox' class='form-check-input'></td></tr>";
-            });
-            table += "</tbody></table>";
-            //geht hier auch append statt html()?
-            $("#"+ appId + " td:last").prepend("<div>" + table + "</div>");
-            //$("#"+ appId).html(table);
+    var button = $('#button'+appId);
+    console.log(button);
+    
+    var table = $('#table'+appId);
+    var column = $('#column'+appId);
 
-            console.log("appointment list ready");
-        }
-        
-    });
-
+    //if the dates are visible ->hide and change button name
+    if (table.is(":visible")) {  
+        table.toggle();
+        button.text("Show Dates");
+    //if dates are not visible make ajax call and show dates
+    } else {
+        $.ajax({
+            type: "GET",
+            url: "./serviceHandler.php",
+            cache: false,
+            data: {method: "queryDates",param: appId},
+            dataType: "json",
+            success: function (response) {
+                //create the date table and fill them with date information and add checkbox
+                var table = "<table id='table"+appId+"'><thead><tr><th>Datum</th><th>Von</th><th>Bis</th><th></th></tr></thead><tbody>";
+                $.each(response, function(i, v) {
+                    table += "<tr><td>" + v.Datum + "</td><td>" + v.Uhrzeit_von + "</td><td>" + v.Uhrzeit_bis +
+                    "</td><td><input type='checkbox' class='form-check-input'></td></tr>";
+                });
+                table += "</tbody></table>";
+                //adds the table to the dates column and changes button name
+                column.prepend("<div>" + table + "</div>");
+                console.log("date list ready");
+                button.text("Hide Dates");
+            } 
+        });  
+    }
 }
 
 
@@ -71,9 +64,9 @@ function loadAllAppointments() {
                 var appointmentId = v.appId;
                 console.log(appointmentId);
                 console.log(v.appId);
-                table += "<tr id="+appointmentId+"><td>" + v.titel + "</td><td>" + v.ort + "</td><td>" + v.ablaufDatum + "</td><td><button class='choose-btn' id='button'"+appointmentId+"'  onclick='showDates(" + appointmentId + ")'>Show Dates</button></td></tr>";            });
+                table += "<tr ><td>" + v.titel + "</td><td>" + v.ort + "</td><td>" + v.ablaufDatum + "</td><td id='column"+appointmentId+"'><button id='button"+appointmentId+"' class='choose-btn' onclick='showDates(" + appointmentId + ")'>Show Dates</button></td></tr>";            });
                 table += "</tbody></table>";
-            $("#appointmentList").html(table);
+                $("#appointmentList").html(table);
 
             console.log("appointment list ready");
         }
