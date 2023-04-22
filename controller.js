@@ -5,8 +5,29 @@ $(document).ready(function () {
 });
 
 
+function submitDates(appId,username,comment) {
+    //dates muss noch definiert werden
+
+    var data = {};
+    data["appId"] = appId;
+    data["dates"] = dates;
+    data["username"] = username;
+    data["comment"] = comment;
+    $.ajax({
+        type: "POST",
+        url: "./serviceHandler.php",
+        cache: false,
+        data: {method: "submiDates", param: data},
+        dataType: "json",
+        success: function (response) {
+            console.log("Submit successful");
+        }  
+    });
+}
+
+
 //loads and shows dates of the chosen appointment after the show button is clicked
-function showDates(appId) {
+function getDates(appId) {
 
     console.log(appId);
     var button = $('#button'+appId);
@@ -14,10 +35,31 @@ function showDates(appId) {
     
     var table = $('#table'+appId);
     var column = $('#column'+appId);
+    var inputUsername = $("<input>").attr({
+        "type":"text",
+        "id":"username"+appId
+    });
+    var inputComment = $("<textarea>").attr({
+        "id":"comments"+appId,
+        "rows": 4,
+        "cols": 40
+
+    });
+    var username = $('#username'+appId);
+    var comment = $('#comment'+appId);
+    var submitButton =$('#submit'+appId);
+    var submit = $("<button>").attr({
+        "id":"submit"+appId,
+        "onclick":"submitDates(" + appId +','+username.val()+','+comment.val()+','+dates+")"
+    });
+    submit.text("Submit");
 
     //if the dates are visible ->hide and change button name
-    if (table.is(":visible")) {  
+    if (table.is(":visible")) {
         table.toggle();
+        username.toggle();
+        comment.toggle();
+        submitButton.toggle();
         button.text("Show Dates");
     //if dates are not visible make ajax call and show dates
     } else {
@@ -33,14 +75,31 @@ function showDates(appId) {
                 $.each(response, function(i, v) {
                     table += "<tr><td>" + v.Datum + "</td><td>" + v.Uhrzeit_von + "</td><td>" + v.Uhrzeit_bis +
                     "</td><td><input type='checkbox' class='form-check-input'></td></tr>";
+
                 });
                 table += "</tbody></table>";
                 //adds the table to the dates column and changes button name
+                column.prepend(submit);
+                column.prepend(inputComment);
+                column.prepend(inputUsername);
                 column.prepend("<div>" + table + "</div>");
+       
+                
+  
+                // append input element to div
+                console.log(button);
+                console.log(inputUsername);
+               
+               // column.prepend(inputUsername);
+                //column.prepend(inputComments);
+        
                 console.log("date list ready");
                 button.text("Hide Dates");
+             
             } 
-        });  
+        });
+
+ 
     }
 }
 
@@ -64,13 +123,14 @@ function loadAllAppointments() {
                 var appointmentId = v.appId;
                 console.log(appointmentId);
                 console.log(v.appId);
-                table += "<tr ><td>" + v.titel + "</td><td>" + v.ort + "</td><td>" + v.ablaufDatum + "</td><td id='column"+appointmentId+"'><button id='button"+appointmentId+"' class='choose-btn' onclick='showDates(" + appointmentId + ")'>Show Dates</button></td></tr>";            });
+                table += "<tr ><td>" + v.titel + "</td><td>" + v.ort + "</td><td>" + v.ablaufDatum + "</td><td id='column"+appointmentId+"'><button id='button"+appointmentId+"' class='choose-btn' onclick='getDates(" + appointmentId + ")'>Show Dates</button></td></tr>";            });
                 table += "</tbody></table>";
                 $("#appointmentList").html(table);
 
+          
+
             console.log("appointment list ready");
-        }
-        
+        }  
     });
 }
 

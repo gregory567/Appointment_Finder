@@ -33,15 +33,42 @@ class DataHandler
             exit();
         }
     }
-    
 
-    public function queryAppointments()
-    {
-        /*
-        $res =  $this->getDemoData();
-        return $res;
-        */
-        
+    public function submitDates($data) {
+        //insert into user table via prepared statements
+        $sql= "INSERT INTO `User` (`Username`) VALUES(?)";
+        $stmt = $this->conn ->prepare($sql);
+        $stmt->bind_param("s", $data["username"]);
+        $stmt->execute();
+
+        //get User ID to just created Username
+        $sql = "SELECT `User_Id` FROM `User` WHERE `Username` = '" . $data['username'] . "'";
+        $stmt = $this->conn ->prepare($sql);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $row = $res->fetch_array();
+        $User_ID = $row["User_ID"];
+
+        //insert into gebucht table via prepared statements
+        $sql= "INSERT INTO `Gebucht` (`FK_Termin_ID`,`FK_User_ID) VALUES(?,?)";
+        $stmt = $this->conn ->prepare($sql);
+
+        foreach ($data["dates"] as $value) {
+            //$key . " = " . $value . "<br>";
+            $stmt->bind_param("ii", $value["Termin_ID"], $User_ID);
+            $stmt->execute();
+          }
+
+
+        //insert into comment table via prepared statements
+        $sql= "INSERT INTO `Kommentiert` (`FK_User_ID`,`FK_App_ID`,`Kommentar`) VALUES(?,?,?)";
+        $stmt = $this->conn ->prepare($sql);
+        $stmt->bind_param("iis", $User_ID, $data["appId"], $data["comment"]);
+        $stmt->execute();
+    }
+   
+
+    public function queryAppointments() {        
         
         // SELECT from table "appointment" to display all appointments
         $sql = "SELECT * FROM `Appointment`";
@@ -55,23 +82,10 @@ class DataHandler
             array_push($result, $appointment);
         }
 
-        return $result;
-        
-        
+        return $result;    
     }
 
-/*
-    public function queryAppointmentById($id)
-    {
-        $result = array();
-        foreach ($this->queryAppointments() as $val) {
-            if ($val->id == $id) {
-                array_push($result, $val);
-            }
-        }
-        return $result;
-    }
-*/
+
     public function queryDates($App_ID) {
         $sql = "SELECT *  FROM `Termin` WHERE `FK_App_ID` = $App_ID";
         $stmt = $this->conn ->prepare($sql);
@@ -89,37 +103,4 @@ class DataHandler
 
 
 }
-/*
-    public function queryAppointmentByTitel($titel)
-    {
-        $result = array();
-        foreach ($this->queryAppointments() as $val) {
-            if ($val->titel == $titel) {
-                array_push($result, $val);
-            }
-        }
-        return $result;
-    }
-
-    public function querySuggestion($titel) {
-        $result = array();
-        foreach($this->queryAppointments() as $val) {
-            if (str_contains($val->titel, $titel)) {
-                array_push($result, $val);
-            }
-        }
-        return $result;
-    }
-
-    private static function getDemoData()
-    {
-        $demodata = [
-            new Appointment(1, "Fussball Training", "Platz 1", "20-04-2023"),
-            new Appointment(2, "Buchbörse", "Bibliothek", "20-04-2023"),
-            new Appointment(3, "Film", "Kino", "20-04-2023"),
-            new Appointment(4, "Konzert", "Konzerthaus", "20-04-2023"),
-        ];
-        return $demodata;
-    }*/
-
 ?>
