@@ -172,7 +172,18 @@ function loadAllAppointments() {
                 var appointmentId = v.appId;
                 console.log(appointmentId);
                 console.log(v.appId);
-                table += "<tr ><td>" + v.titel + "</td><td>" + v.ort + "</td><td>" + v.ablaufDatum + "</td><td id='column"+appointmentId+"'><button id='button"+appointmentId+"' class='choose-btn' onclick='getDates(" + appointmentId + ")'>Show Dates</button></td></tr>";            
+
+                
+                const dateString = v.ablaufDatum; // example date string in yyyy-mm-dd format
+                const dateParts = dateString.split("-"); // split the string into an array of year, month, and day
+                const date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]); // create a Date object using the array
+                const now = new Date(); // create a Date object for the current date and time
+
+                if(date.getTime() < now.getTime()){
+                    table += "<tr ><td>" + v.titel + "</td><td>" + v.ort + "</td><td>" + v.ablaufDatum + "</td><td id='column"+appointmentId+"'>Expired</td></tr>";            
+                } else {
+                    table += "<tr ><td>" + v.titel + "</td><td>" + v.ort + "</td><td>" + v.ablaufDatum + "</td><td id='column"+appointmentId+"'><button id='button"+appointmentId+"' class='choose-btn' onclick='getDates(" + appointmentId + ")'>Show Dates</button></td></tr>";            
+                }
             });
             table += "</tbody></table>";
             $("#appointmentList").html(table);
