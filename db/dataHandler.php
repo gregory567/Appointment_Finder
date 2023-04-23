@@ -35,6 +35,17 @@ class DataHandler
     }
 
     public function submitDates($data) {
+
+        // check if username already exists in that appointment 
+        $sql = "SELECT * FROM `Termin` JOIN `Gebucht` ON `Termin`.`Termin_ID` = `Gebucht`.`FK_Termin_ID` JOIN `User` ON `Gebucht`.`FK_User_ID` = `User`.`User_ID` WHERE `User`.`Username` = '" . $data['username'] . "' AND `Termin`.`FK_App_ID` = '" . $data['appId'] . "'";
+        $stmt = $this->conn ->prepare($sql);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $row = $res->fetch_array();
+        if(!empty($row)){
+            return "User already exists.";
+        } else {
+
         //insert into user table via prepared statements
         $sql= "INSERT INTO `User` (`Username`) VALUES(?)";
         $stmt = $this->conn ->prepare($sql);
@@ -65,8 +76,10 @@ class DataHandler
         $stmt = $this->conn ->prepare($sql);
         $stmt->bind_param("iis", $User_ID, $data["appId"], $data["comment"]);
         $stmt->execute();
-
         return "Submit worked";
+   
+        }
+        
     }
    
 
