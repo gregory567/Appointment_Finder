@@ -15,10 +15,11 @@ function submitDates(appId) {
     // iterate over each checked checkbox in the table
     $('#table'+appId+' input[type=checkbox]:checked').each(function () {
         var row = $(this).closest('tr'); // get the table row containing the checked checkbox
-        var rowID = row.attr('id');
+        var rowID = parseInt(row.attr('id'), 10); // parse the ID string into an integer
         console.log(row.attr('id'));
         dates.push(rowID); // add the selected date to the array
     });
+
 
     var data = {};
     data["appId"] = appId;

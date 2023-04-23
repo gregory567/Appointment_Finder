@@ -43,7 +43,7 @@ class DataHandler
 
         //get User ID to just created Username
         //TO DO: can cause problems because there can be multiple users with the same name 
-        $sql = "SELECT `User_Id` FROM `User` WHERE `Username` = '" . $data['username'] . "'";
+        $sql = "SELECT `User_ID` FROM `User` WHERE `Username` = '" . $data['username'] . "'";
         $stmt = $this->conn ->prepare($sql);
         $stmt->execute();
         $res = $stmt->get_result();
@@ -51,7 +51,7 @@ class DataHandler
         $User_ID = $row["User_ID"];
 
         //insert into gebucht table via prepared statements
-        $sql= "INSERT INTO `Gebucht` (`FK_Termin_ID`,`FK_User_ID) VALUES(?,?)";
+        $sql= "INSERT INTO `Gebucht` (`FK_Termin_ID`,`FK_User_ID`) VALUES(?,?)";
         $stmt = $this->conn ->prepare($sql);
 
         foreach ($data["dates"] as $value) {
