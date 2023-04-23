@@ -42,41 +42,43 @@ class DataHandler
         $stmt->execute();
         $res = $stmt->get_result();
         $row = $res->fetch_array();
+
+
         if(!empty($row)){
             return "User already exists.";
         } else {
 
-        //insert into user table via prepared statements
-        $sql= "INSERT INTO `User` (`Username`) VALUES(?)";
-        $stmt = $this->conn ->prepare($sql);
-        $stmt->bind_param("s", $data["username"]);
-        $stmt->execute();
-
-        //get user ID of the just created username by selecting the row with the highest user id
-        //TO DO: there can be multiple users with the same name 
-        $sql = "SELECT * FROM `User` WHERE `User`.`Username` = ? AND `User`.`User_ID` = (SELECT MAX(`User_ID`) FROM `User` WHERE `User`.`Username` = ?)";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ss", $data['username'], $data['username']);
-        $stmt->execute();
-        $res = $stmt->get_result();
-        $row = $res->fetch_array();
-        $User_ID = $row["User_ID"];
-
-        //insert into gebucht table via prepared statements
-        $sql= "INSERT INTO `Gebucht` (`FK_Termin_ID`,`FK_User_ID`) VALUES(?,?)";
-        $stmt = $this->conn ->prepare($sql);
-
-        foreach ($data["dates"] as $value) {
-            $stmt->bind_param("ii", $value, $User_ID);
+            //insert into user table via prepared statements
+            $sql= "INSERT INTO `User` (`Username`) VALUES(?)";
+            $stmt = $this->conn ->prepare($sql);
+            $stmt->bind_param("s", $data["username"]);
             $stmt->execute();
-        }
 
-        //insert into comment table via prepared statements
-        $sql= "INSERT INTO `Kommentiert` (`FK_User_ID`,`FK_App_ID`,`Kommentar`) VALUES(?,?,?)";
-        $stmt = $this->conn ->prepare($sql);
-        $stmt->bind_param("iis", $User_ID, $data["appId"], $data["comment"]);
-        $stmt->execute();
-        return "Submitted.";
+            //get user ID of the just created username by selecting the row with the highest user id
+            //TO DO: there can be multiple users with the same name 
+            $sql = "SELECT * FROM `User` WHERE `User`.`Username` = ? AND `User`.`User_ID` = (SELECT MAX(`User_ID`) FROM `User` WHERE `User`.`Username` = ?)";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("ss", $data['username'], $data['username']);
+            $stmt->execute();
+            $res = $stmt->get_result();
+            $row = $res->fetch_array();
+            $User_ID = $row["User_ID"];
+
+            //insert into gebucht table via prepared statements
+            $sql= "INSERT INTO `Gebucht` (`FK_Termin_ID`,`FK_User_ID`) VALUES(?,?)";
+            $stmt = $this->conn ->prepare($sql);
+
+            foreach ($data["dates"] as $value) {
+                $stmt->bind_param("ii", $value, $User_ID);
+                $stmt->execute();
+            }
+
+            //insert into comment table via prepared statements
+            $sql= "INSERT INTO `Kommentiert` (`FK_User_ID`,`FK_App_ID`,`Kommentar`) VALUES(?,?,?)";
+            $stmt = $this->conn ->prepare($sql);
+            $stmt->bind_param("iis", $User_ID, $data["appId"], $data["comment"]);
+            $stmt->execute();
+            return "Submitted.";
    
         }
         
@@ -127,6 +129,14 @@ class DataHandler
         return $successMessage;
     }
 
-
+    //creates new Appointment
+    public function addAppointment($data) {
+        $sql= "INSERT INTO `Appointment` (`Titel`,`Ort`,`Ablaufdatum`) VALUES(?,?,?)";
+        $stmt = $this->conn ->prepare($sql);
+        $stmt->bind_param("sss", $data["newAppointmentTitle"], $data["newAppointmentPlace"],$data["newAppointmentExpirationDate"]);
+        $stmt->execute();
+        $successMessage = "Appointment created successfully!";
+        return $successMessage;
+    }
 }
 ?>

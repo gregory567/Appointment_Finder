@@ -2,6 +2,7 @@
 $(document).ready(function () {
     console.log("document loaded");
     loadAllAppointments();
+    $("#addAppointmentInputFields").hide();
 });
 
 
@@ -240,6 +241,77 @@ function loadAllAppointments() {
 }
 
 
+function addAppointment() {
+
+    var newAppointmentTitle =  $("#appointmentPlaceInput").val();
+    var newAppointmentPlace =  $("#appointmentTitleInput").val();
+    var newAppointmentExpirationDate =  $("#appointmentExpirationDateInput").val();
+
+
+    var data = {};
+    data["newAppointmentTitle"] = newAppointmentTitle;
+    data["newAppointmentPlace"] = newAppointmentPlace;
+    data["newAppointmentExpirationDate"] = newAppointmentExpirationDate;
+    console.log(data);
+ 
+
+    $.ajax({
+        type: "GET",
+        url: "./serviceHandler.php",
+        cache: false,
+        data: {method: "addAppointment", param: data},
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+
+            // clear the content of the input fields
+            $("#appointmentTitleInput").val('');
+            $("#appointmentPlaceInput").val('');
+            $("#appointmentExpirationDateInput").val('');
+
+            toggleAddAppointmentFields();
+   
+
+            // create the modal content with the response
+            var modalContent = $('<div>').addClass('modal-content')
+            .append($('<div>').addClass('modal-header')
+            .append($('<button>').addClass('close').attr('data-dismiss', 'modal').html('&times;')))
+            .append($('<div>').addClass('modal-body').html(response))
+            .append($('<div>').addClass('modal-footer'));
+
+            // create the modal and append the content
+            var modal = $('<div>').addClass('modal').attr('id', 'myModal')
+                .append($('<div>').addClass('modal-dialog')
+                    .append(modalContent));
+
+            // append the modal to the page
+            $('body').append(modal);
+
+            // show the modal
+            $('#myModal').modal('show');
+
+            // add a delegated event listener for the close button
+            $('body').on('click', '.modal .close', function() {
+                $(this).closest('.modal').modal('hide'); // hide the modal
+                $(this).closest('.modal').remove(); // remove the modal from the DOM
+            });
+
+            //updates the appointments
+            loadAllAppointments();
+
+            console.log("addAppointment happened!");
+            
+        },
+        error: function(error) {
+            console.log("Error: " + error);
+            
+        } 
+    });
+}
+
+function toggleAddAppointmentFields() {
+    $("#addAppointmentInputFields").fadeToggle();
+  }
 
 
 

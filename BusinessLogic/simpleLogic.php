@@ -34,6 +34,9 @@ class SimpleLogic
             case "removeAppointment":
                 $res = $this->dh->removeAppointment($param);
                 break;
+            case "addAppointment":
+                $res = $this->dh->addAppointment($param);
+                break;
             default:
                 $res = "test";
                 break;

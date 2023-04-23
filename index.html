@@ -23,6 +23,46 @@
         </div>
     </div>
 
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6" id="appointmentList">
+                
+            </div>
+            <div class="col-md-6">
+                
+            </div>
+        </div>
+
+        <div class="row">
+            <button id='addAppointmentButton' class='choose-btn justify-content-center col-md-6' onclick='toggleAddAppointmentFields()'>New Appointment</button>
+
+        </div>
+
+        <div class="row" id="appointmentInputFields">
+            <div class="col-md-6" id="addAppointmentInputFields">
+
+                <div class="mb-3">
+                    <label for="appointmentTitleInput" class="form-label">Appointment Title:</label>
+                    <input type="text" class="form-control" id="appointmentTitleInput">
+                </div>
+                <div class="mb-3">
+                    <label for="appointmentPlaceInput" class="form-label">Appointment Place:</label>
+                    <input type="text" class="form-control" id="appointmentPlaceInput">
+                </div>
+                <div class="mb-3">
+                    <label for="appointmentExpirationDateInput" class="form-label">Appointment Expiration Date:</label>
+                    <input type="date" class="form-control" id="appointmentExpirationDateInput">
+                   
+                </div>
+                <div class="mb-3">
+                    <button id='addAppointmentButton' class='choose-btn justify-content-center col-md-6' onclick='addAppointment()'>Create</button>
+              </div>
+
+            </div>
+        </div>
+    </div>
+    
+
     
     <script src="./controller.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
