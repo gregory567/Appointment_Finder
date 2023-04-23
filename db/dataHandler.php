@@ -54,7 +54,8 @@ class DataHandler
 
         //get User ID to just created Username
         //TO DO: can cause problems because there can be multiple users with the same name 
-        $sql = "SELECT `User_ID` FROM `User` WHERE `Username` = '" . $data['username'] . "'";
+        //$sql = "SELECT `User_ID` FROM `User` WHERE `Username` = '" . $data['username'] . "' AND `Termin`.`FK_App_ID` = '" . $data['appId'] . "'";;
+        $sql = "SELECT * FROM `Appointment` JOIN `Kommentiert` ON `Appointment`.`App_ID` = `Kommentiert`.`FK_App_ID` JOIN `User` ON `Kommentiert`.`FK_User_ID` = `User`.`User_ID` WHERE `User`.`Username` = '" . $data['username'] . "' AND `Appointment`.`App_ID` = '" . $data['appId'] . "'";
         $stmt = $this->conn ->prepare($sql);
         $stmt->execute();
         $res = $stmt->get_result();
