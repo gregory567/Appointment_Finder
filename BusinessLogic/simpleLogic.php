@@ -28,7 +28,7 @@ class SimpleLogic
             case "queryDates":
                 $res = $this->dh->queryDates($param);
                 break;
-            case "subitDates":
+            case "submitDates":
                 $res = $this->dh->submitDates($param);
                 break;
             default:

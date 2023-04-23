@@ -42,6 +42,7 @@ class DataHandler
         $stmt->execute();
 
         //get User ID to just created Username
+        //TO DO: can cause problems because there can be multiple users with the same name 
         $sql = "SELECT `User_Id` FROM `User` WHERE `Username` = '" . $data['username'] . "'";
         $stmt = $this->conn ->prepare($sql);
         $stmt->execute();
@@ -55,10 +56,9 @@ class DataHandler
 
         foreach ($data["dates"] as $value) {
             //$key . " = " . $value . "<br>";
-            $stmt->bind_param("ii", $value["Termin_ID"], $User_ID);
+            $stmt->bind_param("ii", $value, $User_ID);
             $stmt->execute();
-          }
-
+        }
 
         //insert into comment table via prepared statements
         $sql= "INSERT INTO `Kommentiert` (`FK_User_ID`,`FK_App_ID`,`Kommentar`) VALUES(?,?,?)";

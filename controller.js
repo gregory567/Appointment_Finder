@@ -6,7 +6,15 @@ $(document).ready(function () {
 
 
 function submitDates(appId,username,comment) {
-    //dates muss noch definiert werden
+
+    var dates = []
+
+    // iterate over each checked checkbox in the table
+    $('#table'+appId+' input[type=checkbox]:checked').each(function () {
+        var row = $(this).closest('tr'); // get the table row containing the checked checkbox
+        var rowID = row.id;
+        dates.push(rowID); // add the selected date to the array
+    });
 
     var data = {};
     data["appId"] = appId;
@@ -17,11 +25,14 @@ function submitDates(appId,username,comment) {
         type: "POST",
         url: "./serviceHandler.php",
         cache: false,
-        data: {method: "submiDates", param: data},
+        data: {method: "submitDates", param: data},
         dataType: "json",
-        success: function (response) {
+        success: function () {
             console.log("Submit successful");
-        }  
+        },
+        error: function(error) {
+            console.log("Error: " + error);
+        } 
     });
 }
 
@@ -40,17 +51,20 @@ function getDates(appId) {
         "id":"username"+appId
     });
     var inputComment = $("<textarea>").attr({
-        "id":"comments"+appId,
+        "id":"comment"+appId,
         "rows": 4,
         "cols": 40
 
     });
     var username = $('#username'+appId);
     var comment = $('#comment'+appId);
+
+    
+
     var submitButton =$('#submit'+appId);
     var submit = $("<button>").attr({
         "id":"submit"+appId,
-        "onclick":"submitDates(" + appId +','+username.val()+','+comment.val()+','+dates+")"
+        "onclick":"submitDates(" + appId +','+username.val()+','+comment.val()+")"
     });
     submit.text("Submit");
 
@@ -73,7 +87,7 @@ function getDates(appId) {
                 //create the date table and fill them with date information and add checkbox
                 var table = "<table id='table"+appId+"'><thead><tr><th>Datum</th><th>Von</th><th>Bis</th><th></th></tr></thead><tbody>";
                 $.each(response, function(i, v) {
-                    table += "<tr><td>" + v.Datum + "</td><td>" + v.Uhrzeit_von + "</td><td>" + v.Uhrzeit_bis +
+                    table += "<tr id='"+v.Termin_ID+"'><td>" + v.Datum + "</td><td>" + v.Uhrzeit_von + "</td><td>" + v.Uhrzeit_bis +
                     "</td><td><input type='checkbox' class='form-check-input'></td></tr>";
 
                 });
@@ -96,6 +110,9 @@ function getDates(appId) {
                 console.log("date list ready");
                 button.text("Hide Dates");
              
+            },
+            error: function(error) {
+                console.log("Error: " + error);
             } 
         });
 
@@ -130,7 +147,10 @@ function loadAllAppointments() {
           
 
             console.log("appointment list ready");
-        }  
+        },
+        error: function(error) {
+            console.log("Error: " + error);
+        }   
     });
 }
 

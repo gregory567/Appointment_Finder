@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 19, 2023 at 01:43 PM
+-- Generation Time: Apr 23, 2023 at 10:48 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -20,10 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `Appointment_Finder`
 --
-DROP DATABASE IF EXISTS `Appointment_Finder`;
-CREATE DATABASE IF NOT EXISTS `Appointment_Finder` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-
-
 
 -- --------------------------------------------------------
 
@@ -38,6 +34,16 @@ CREATE TABLE `Appointment` (
   `Ablaufdatum` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `Appointment`
+--
+
+INSERT INTO `Appointment` (`App_ID`, `Titel`, `Ort`, `Ablaufdatum`) VALUES
+(13, 'Fussball Training', 'Platz 1', '2023-04-20'),
+(14, 'Buchbörse', 'Bibliothek', '2023-04-20'),
+(15, 'Film', 'Kino', '2023-04-20'),
+(16, 'Konzert', 'Konzerthaus', '2023-04-20');
+
 -- --------------------------------------------------------
 
 --
@@ -45,7 +51,7 @@ CREATE TABLE `Appointment` (
 --
 
 CREATE TABLE `Gebucht` (
-  `FK_TermID_ID` int(11) NOT NULL,
+  `FK_Termin_ID` int(11) NOT NULL,
   `FK_User_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -70,10 +76,20 @@ CREATE TABLE `Kommentiert` (
 CREATE TABLE `Termin` (
   `Termin_ID` int(11) NOT NULL,
   `Datum` date NOT NULL,
-  `Uhrzeit_von` date NOT NULL,
-  `Uhrzeit_bis` date NOT NULL,
+  `Uhrzeit_von` varchar(5) NOT NULL,
+  `Uhrzeit_bis` varchar(5) NOT NULL,
   `FK_App_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Termin`
+--
+
+INSERT INTO `Termin` (`Termin_ID`, `Datum`, `Uhrzeit_von`, `Uhrzeit_bis`, `FK_App_ID`) VALUES
+(1, '2023-04-17', '18:30', '19:00', 13),
+(2, '2023-04-17', '19:00', '19:30', 13),
+(3, '2023-04-17', '20:30', '21:00', 13),
+(4, '2023-04-17', '21:30', '22:00', 13);
 
 -- --------------------------------------------------------
 
@@ -100,7 +116,7 @@ ALTER TABLE `Appointment`
 -- Indexes for table `Gebucht`
 --
 ALTER TABLE `Gebucht`
-  ADD PRIMARY KEY (`FK_TermID_ID`,`FK_User_ID`),
+  ADD PRIMARY KEY (`FK_Termin_ID`,`FK_User_ID`),
   ADD KEY `constrFK_User_ID` (`FK_User_ID`);
 
 --
@@ -131,13 +147,13 @@ ALTER TABLE `User`
 -- AUTO_INCREMENT for table `Appointment`
 --
 ALTER TABLE `Appointment`
-  MODIFY `App_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `App_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `Termin`
 --
 ALTER TABLE `Termin`
-  MODIFY `Termin_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Termin_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `User`
@@ -153,7 +169,7 @@ ALTER TABLE `User`
 -- Constraints for table `Gebucht`
 --
 ALTER TABLE `Gebucht`
-  ADD CONSTRAINT `constrFK_Term_ID` FOREIGN KEY (`FK_TermID_ID`) REFERENCES `Termin` (`Termin_ID`),
+  ADD CONSTRAINT `constrFK_Term_ID` FOREIGN KEY (`FK_Termin_ID`) REFERENCES `Termin` (`Termin_ID`),
   ADD CONSTRAINT `constrFK_User_ID` FOREIGN KEY (`FK_User_ID`) REFERENCES `User` (`User_ID`);
 
 --
