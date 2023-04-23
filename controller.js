@@ -36,11 +36,36 @@ function submitDates(appId) {
         dataType: "json",
         success: function (response) {
             console.log(response);
+
             // clear the content of the input fields
             $('#username'+appId).val('');
             $('#comment'+appId).val('');
             // uncheck all checkboxes
             $('#table'+appId+' input[type=checkbox]:checked').prop('checked', false);
+
+            // create the modal content with the response
+            var modalContent = $('<div>').addClass('modal-content')
+            .append($('<div>').addClass('modal-header')
+            .append($('<button>').addClass('close').attr('data-dismiss', 'modal').html('&times;')))
+            .append($('<div>').addClass('modal-body').html(response))
+            .append($('<div>').addClass('modal-footer'));
+
+            // create the modal and append the content
+            var modal = $('<div>').addClass('modal').attr('id', 'myModal')
+                .append($('<div>').addClass('modal-dialog')
+                    .append(modalContent));
+
+            // append the modal to the page
+            $('body').append(modal);
+
+            // show the modal
+            $('#myModal').modal('show');
+
+            // add a delegated event listener for the close button
+            $('body').on('click', '.modal .close', function() {
+                $(this).closest('.modal').modal('hide'); // hide the modal
+                $(this).closest('.modal').remove(); // remove the modal from the DOM
+            });
         },
         error: function(error) {
             console.log("Error: " + error);
