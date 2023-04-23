@@ -29,13 +29,13 @@ function submitDates(appId) {
 
     console.log(data);
     $.ajax({
-        type: "POST",
+        type: "GET",
         url: "./serviceHandler.php",
         cache: false,
         data: {method: "submitDates", param: data},
         dataType: "json",
-        success: function () {
-            console.log("Submit successful");
+        success: function (response) {
+            console.log(response);
         },
         error: function(error) {
             console.log("Error: " + error);

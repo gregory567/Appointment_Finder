@@ -65,6 +65,8 @@ class DataHandler
         $stmt = $this->conn ->prepare($sql);
         $stmt->bind_param("iis", $User_ID, $data["appId"], $data["comment"]);
         $stmt->execute();
+
+        return "Submit worked";
     }
    
 
