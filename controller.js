@@ -10,6 +10,7 @@ function submitDates(appId) {
     var username = $('#username'+appId).val();
     var comment = $('#comment'+appId).val();
 
+    // this is an empty array that will hold the IDs of the dates that were checked by the user
     var dates = [];
 
     // iterate over each checked checkbox in the table
@@ -20,14 +21,16 @@ function submitDates(appId) {
         dates.push(rowID); // add the selected date to the array
     });
 
-
+    // this object will hold the ID of the selected appointment, the selected dates for the appointment, 
+    // the name of the user, and the comment created by the user
     var data = {};
     data["appId"] = appId;
     data["dates"] = dates;
     data["username"] = username;
     data["comment"] = comment;
-
     console.log(data);
+
+
     $.ajax({
         type: "GET",
         url: "./serviceHandler.php",
@@ -52,8 +55,8 @@ function submitDates(appId) {
 
             // create the modal and append the content
             var modal = $('<div>').addClass('modal').attr('id', 'myModal')
-                .append($('<div>').addClass('modal-dialog')
-                    .append(modalContent));
+            .append($('<div>').addClass('modal-dialog')
+            .append(modalContent));
 
             // append the modal to the page
             $('body').append(modal);
@@ -74,10 +77,9 @@ function submitDates(appId) {
 }
 
 
-//loads and shows dates of the chosen appointment after the show button is clicked
+//loads and shows dates of the chosen appointment after the show dates button is clicked
 function getDates(appId) {
 
-    console.log(appId);
     var button = $('#button'+appId);
     console.log(button);
     
@@ -118,7 +120,7 @@ function getDates(appId) {
             type: "GET",
             url: "./serviceHandler.php",
             cache: false,
-            data: {method: "queryDates",param: appId},
+            data: {method: "queryDates", param: appId},
             dataType: "json",
             success: function (response) {
                 //create the date table and fill them with date information and add checkbox
@@ -134,13 +136,12 @@ function getDates(appId) {
                 column.prepend(inputComment);
                 column.prepend(inputUsername);
                 column.prepend("<div>" + table + "</div>");
+                button.text("Hide Dates");
        
                 // append input element to div
                 console.log(button);
                 console.log(inputUsername);
-        
                 console.log("date list ready");
-                button.text("Hide Dates");
              
             },
             error: function(error) {
@@ -150,6 +151,51 @@ function getDates(appId) {
 
  
     }
+}
+
+
+function removeAppointment(appId){
+
+    $.ajax({
+        type: "GET",
+        url: "./serviceHandler.php",
+        cache: false,
+        data: {method: "removeAppointment", param: appId},
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+
+            // create the modal content with the response
+            var modalContent = $('<div>').addClass('modal-content')
+            .append($('<div>').addClass('modal-header')
+            .append($('<button>').addClass('close').attr('data-dismiss', 'modal').html('&times;')))
+            .append($('<div>').addClass('modal-body').html(response))
+            .append($('<div>').addClass('modal-footer'));
+
+            // create the modal and append the content
+            var modal = $('<div>').addClass('modal').attr('id', 'myModal')
+            .append($('<div>').addClass('modal-dialog')
+            .append(modalContent));
+
+            // append the modal to the page
+            $('body').append(modal);
+
+            // show the modal
+            $('#myModal').modal('show');
+
+            // add a delegated event listener for the close button
+            $('body').on('click', '.modal .close', function() {
+                $(this).closest('.modal').modal('hide'); // hide the modal
+                $(this).closest('.modal').remove(); // remove the modal from the DOM
+            });
+
+            loadAllAppointments();
+        },
+        error: function(error) {
+            console.log("Error: " + error);
+        } 
+    });
+
 }
 
 
@@ -166,7 +212,7 @@ function loadAllAppointments() {
         data: {method: "queryAppointments"},
         dataType: "json",
         success: function (response) {
-            var table = "<table><thead><th>Titel</th><th>Ort</th><th>Ablaufdatum</th><th></th></tr></thead><tbody>";
+            var table = "<table><thead><th>Titel</th><th>Ort</th><th>Ablaufdatum</th><th></th><th></th></tr></thead><tbody>";
             $.each(response, function(i, v) {
                 //buttonID = App_ID which is used for get the Appointment information within the onclick event
                 var appointmentId = v.appId;
@@ -178,9 +224,9 @@ function loadAllAppointments() {
 
                 // if ablaufDatum is less than current time, then creates the appointment row without the show dates button, else with the show dates button
                 if(date.getTime() < now.getTime()){
-                    table += "<tr ><td>" + v.titel + "</td><td>" + v.ort + "</td><td>" + v.ablaufDatum + "</td><td id='column"+appointmentId+"'>Expired</td></tr>";            
+                    table += "<tr><td>" + v.titel + "</td><td>" + v.ort + "</td><td>" + v.ablaufDatum + "</td><td id='column"+appointmentId+"'>Expired</td><td><button id='removeButton"+appointmentId+"' class='remove-btn' onclick='removeAppointment(" + appointmentId + ")'>Remove Appointment</button></td></tr>";            
                 } else {
-                    table += "<tr ><td>" + v.titel + "</td><td>" + v.ort + "</td><td>" + v.ablaufDatum + "</td><td id='column"+appointmentId+"'><button id='button"+appointmentId+"' class='choose-btn' onclick='getDates(" + appointmentId + ")'>Show Dates</button></td></tr>";            
+                    table += "<tr><td>" + v.titel + "</td><td>" + v.ort + "</td><td>" + v.ablaufDatum + "</td><td id='column"+appointmentId+"'><button id='button"+appointmentId+"' class='choose-btn' onclick='getDates(" + appointmentId + ")'>Show Dates</button></td><td><button id='removeButton"+appointmentId+"' class='remove-btn' onclick='removeAppointment(" + appointmentId + ")'>Remove Appointment</button></td></tr>";            
                 }
             });
             table += "</tbody></table>";

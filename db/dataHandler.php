@@ -116,6 +116,17 @@ class DataHandler
         return $result;
     }
 
+    public function removeAppointment($App_ID){
+
+        // TO DO: "on delete cascade" einstellen bei der Tabelle Appointment
+        $sql = "DELETE FROM `Appointment` WHERE `App_ID` = $App_ID";
+        $stmt = $this->conn ->prepare($sql);
+        $stmt->execute();
+        $successMessage = "Appointment deleted successfully.";
+        
+        return $successMessage;
+    }
+
 
 }
 ?>

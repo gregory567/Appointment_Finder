@@ -31,6 +31,9 @@ class SimpleLogic
             case "submitDates":
                 $res = $this->dh->submitDates($param);
                 break;
+            case "removeAppointment":
+                $res = $this->dh->removeAppointment($param);
+                break;
             default:
                 $res = "test";
                 break;
