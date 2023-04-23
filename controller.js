@@ -36,6 +36,11 @@ function submitDates(appId) {
         dataType: "json",
         success: function (response) {
             console.log(response);
+            // clear the content of the input fields
+            $('#username'+appId).val('');
+            $('#comment'+appId).val('');
+            // uncheck all checkboxes
+            $('#table'+appId+' input[type=checkbox]:checked').prop('checked', false);
         },
         error: function(error) {
             console.log("Error: " + error);
