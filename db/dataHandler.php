@@ -52,11 +52,11 @@ class DataHandler
         $stmt->bind_param("s", $data["username"]);
         $stmt->execute();
 
-        //get User ID to just created Username
-        //TO DO: can cause problems because there can be multiple users with the same name 
-        //$sql = "SELECT `User_ID` FROM `User` WHERE `Username` = '" . $data['username'] . "' AND `Termin`.`FK_App_ID` = '" . $data['appId'] . "'";;
-        $sql = "SELECT MAX(`User_ID`) FROM `User` WHERE `User`.`Username` = '" . $data['username'] . "'";
-        $stmt = $this->conn ->prepare($sql);
+        //get user ID of the just created username by selecting the row with the highest user id
+        //TO DO: there can be multiple users with the same name 
+        $sql = "SELECT * FROM `User` WHERE `User`.`Username` = ? AND `User`.`User_ID` = (SELECT MAX(`User_ID`) FROM `User` WHERE `User`.`Username` = ?)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ss", $data['username'], $data['username']);
         $stmt->execute();
         $res = $stmt->get_result();
         $row = $res->fetch_array();
@@ -67,7 +67,6 @@ class DataHandler
         $stmt = $this->conn ->prepare($sql);
 
         foreach ($data["dates"] as $value) {
-            //$key . " = " . $value . "<br>";
             $stmt->bind_param("ii", $value, $User_ID);
             $stmt->execute();
         }
@@ -77,7 +76,7 @@ class DataHandler
         $stmt = $this->conn ->prepare($sql);
         $stmt->bind_param("iis", $User_ID, $data["appId"], $data["comment"]);
         $stmt->execute();
-        return "Submit worked";
+        return "Submitted.";
    
         }
         

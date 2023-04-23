@@ -135,14 +135,9 @@ function getDates(appId) {
                 column.prepend(inputUsername);
                 column.prepend("<div>" + table + "</div>");
        
-                
-  
                 // append input element to div
                 console.log(button);
                 console.log(inputUsername);
-               
-               // column.prepend(inputUsername);
-                //column.prepend(inputComments);
         
                 console.log("date list ready");
                 button.text("Hide Dates");
@@ -177,12 +172,10 @@ function loadAllAppointments() {
                 var appointmentId = v.appId;
                 console.log(appointmentId);
                 console.log(v.appId);
-                table += "<tr ><td>" + v.titel + "</td><td>" + v.ort + "</td><td>" + v.ablaufDatum + "</td><td id='column"+appointmentId+"'><button id='button"+appointmentId+"' class='choose-btn' onclick='getDates(" + appointmentId + ")'>Show Dates</button></td></tr>";            });
-                table += "</tbody></table>";
-                $("#appointmentList").html(table);
-
-          
-
+                table += "<tr ><td>" + v.titel + "</td><td>" + v.ort + "</td><td>" + v.ablaufDatum + "</td><td id='column"+appointmentId+"'><button id='button"+appointmentId+"' class='choose-btn' onclick='getDates(" + appointmentId + ")'>Show Dates</button></td></tr>";            
+            });
+            table += "</tbody></table>";
+            $("#appointmentList").html(table);
             console.log("appointment list ready");
         },
         error: function(error) {
