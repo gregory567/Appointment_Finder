@@ -170,15 +170,13 @@ function loadAllAppointments() {
             $.each(response, function(i, v) {
                 //buttonID = App_ID which is used for get the Appointment information within the onclick event
                 var appointmentId = v.appId;
-                console.log(appointmentId);
-                console.log(v.appId);
 
-                
-                const dateString = v.ablaufDatum; // example date string in yyyy-mm-dd format
+                const dateString = v.ablaufDatum; // ablaufDatum string in yyyy-mm-dd format
                 const dateParts = dateString.split("-"); // split the string into an array of year, month, and day
                 const date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]); // create a Date object using the array
                 const now = new Date(); // create a Date object for the current date and time
 
+                // if ablaufDatum is less than current time, then creates the appointment row without the show dates button, else with the show dates button
                 if(date.getTime() < now.getTime()){
                     table += "<tr ><td>" + v.titel + "</td><td>" + v.ort + "</td><td>" + v.ablaufDatum + "</td><td id='column"+appointmentId+"'>Expired</td></tr>";            
                 } else {
