@@ -5,14 +5,18 @@ $(document).ready(function () {
 });
 
 
-function submitDates(appId,username,comment) {
+function submitDates(appId) {
 
-    var dates = []
+    var username = $('#username'+appId).val();
+    var comment = $('#comment'+appId).val();
+
+    var dates = [];
 
     // iterate over each checked checkbox in the table
     $('#table'+appId+' input[type=checkbox]:checked').each(function () {
         var row = $(this).closest('tr'); // get the table row containing the checked checkbox
-        var rowID = row.id;
+        var rowID = row.attr('id');
+        console.log(row.attr('id'));
         dates.push(rowID); // add the selected date to the array
     });
 
@@ -21,6 +25,8 @@ function submitDates(appId,username,comment) {
     data["dates"] = dates;
     data["username"] = username;
     data["comment"] = comment;
+
+    console.log(data);
     $.ajax({
         type: "POST",
         url: "./serviceHandler.php",
@@ -59,14 +65,14 @@ function getDates(appId) {
     var username = $('#username'+appId);
     var comment = $('#comment'+appId);
 
-    
-
-    var submitButton =$('#submit'+appId);
     var submit = $("<button>").attr({
         "id":"submit"+appId,
-        "onclick":"submitDates(" + appId +','+username.val()+','+comment.val()+")"
+        "onclick":"submitDates("+ appId +")"
     });
     submit.text("Submit");
+
+    var submitButton =$('#submit'+appId);
+
 
     //if the dates are visible ->hide and change button name
     if (table.is(":visible")) {
