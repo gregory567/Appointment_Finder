@@ -41,7 +41,7 @@ class SimpleLogic
                 $res = $this->dh->queryHistory($param);
                 break;
             default:
-                $res = "test";
+                $res = "Method not found!";
                 break;
         }
         return $res;

@@ -5,7 +5,7 @@ $(document).ready(function () {
     $("#addAppointmentInputFields").hide();
 });
 
-
+//sends checked dates to db
 function submitDates(appId) {
 
     var username = $('#username'+appId).val();
@@ -47,6 +47,7 @@ function submitDates(appId) {
             // uncheck all checkboxes
             $('#table'+appId+' input[type=checkbox]:checked').prop('checked', false);
 
+            //-------------------------------------------------------------------------------------
             // create the modal content with the response
             var modalContent = $('<div>').addClass('modal-content')
             .append($('<div>').addClass('modal-header')
@@ -70,6 +71,7 @@ function submitDates(appId) {
                 $(this).closest('.modal').modal('hide'); // hide the modal
                 $(this).closest('.modal').remove(); // remove the modal from the DOM
             });
+            //------------------------------------------------------------------------------------
         },
         error: function(error) {
             console.log("Error: " + error);
@@ -78,7 +80,7 @@ function submitDates(appId) {
 }
 
 
-//loads and shows dates of the chosen appointment after the show dates button is clicked
+//loads and shows available dates of the chosen appointment and the history of the appointment after the "Show Dates" button is clicked
 function getDates(appId) {
 
     var button = $('#button'+appId);
@@ -147,7 +149,8 @@ function getDates(appId) {
                 console.log("Error: " + error);
             } 
         });
-        //ajax call to get history
+
+        //ajax call to get history (= information which dates user has selected and the user comment)
         $.ajax({
             type: "GET",
             url: "./serviceHandler.php",
@@ -226,7 +229,7 @@ function removeAppointment(appId){
     });
 }
 
-
+//gets all appointments from the db and displays them in a table
 function loadAllAppointments() {
 
     // Clear the contents of the appointmentList div
@@ -244,7 +247,7 @@ function loadAllAppointments() {
             $.each(response, function(i, v) {
                 //buttonID = App_ID which is used for get the Appointment information within the onclick event
                 var appointmentId = v.appId;
-
+                //"date" and "now" used to check if appointment is expired
                 const dateString = v.ablaufDatum; // ablaufDatum string in yyyy-mm-dd format
                 const dateParts = dateString.split("-"); // split the string into an array of year, month, and day
                 const date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]); // create a Date object using the array
@@ -268,6 +271,7 @@ function loadAllAppointments() {
 }
 
 
+//creates a new appointment in the db and adds the corresponding user input dates, username and comments
 function addAppointment() {
 
     //variables for each date input row
@@ -341,16 +345,15 @@ function addAppointment() {
             });
             //---------------------------------------------------------------------
 
-            //updates the appointments
+            //updates the appointments again to display the newly created appointment
             loadAllAppointments();
 
-            //remove the additional dateRows by deleting the child elements of the additionalRows div
-            
+            //removes the additional dateRows by deleting the child elements of the additionalRows div
             var additionalRows = document.getElementById("additionalRows");
             additionalRows.innerHTML = "";
             //reset global dateCounter
             dateCounter = 1;
-            //reset the values of the initial input field
+            //reset the values of the initial ("static") input field
             $("#datumInput0").val("");
             $("#uhrzeitVonInput0").val("");
             $("#uhrzeitBisInput0").val("");
@@ -367,6 +370,7 @@ function addAppointment() {
 
 var dateCounter = 1;
 
+//adds additional input fields to the add add appointment input box
 function addDate() {
     var newRow = $("<div>").addClass("mb-3");
     console.log(dateCounter);

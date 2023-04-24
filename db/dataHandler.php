@@ -2,7 +2,7 @@
 include("./models/appointment.php");
 include("./models/termin.php");
 include("./models/history.php");
-require_once("./dbaccess.php"); //to retrieve connection details
+require_once("./dbaccess.php");
 
 
 /*
@@ -35,28 +35,29 @@ class DataHandler
         }
     }
 
+    //inserts the selected user dates for a specific appointment into the db
     public function submitDates($data) {
 
-        // check if username already exists in that appointment 
+        // check if username already exists for that appointment (same username can exist in different appointment but must be unique in each appointment)
         $sql = "SELECT * FROM `Termin` JOIN `Gebucht` ON `Termin`.`Termin_ID` = `Gebucht`.`FK_Termin_ID` JOIN `User` ON `Gebucht`.`FK_User_ID` = `User`.`User_ID` WHERE `User`.`Username` = '" . $data['username'] . "' AND `Termin`.`FK_App_ID` = '" . $data['appId'] . "'";
         $stmt = $this->conn ->prepare($sql);
         $stmt->execute();
         $res = $stmt->get_result();
         $row = $res->fetch_array();
 
-
+        //if username has already made their date choices and created a comment for that appointment
         if(!empty($row)){
             return "User already exists.";
+        //if user has not yet chosen a date /added a commment -> create new user and add entry in table "Gebucht" for the selected dates and create entry in table "Kommentiert" for the user comment
         } else {
 
-            //insert into user table via prepared statements
+            //create user table via prepared statements
             $sql= "INSERT INTO `User` (`Username`) VALUES(?)";
             $stmt = $this->conn ->prepare($sql);
             $stmt->bind_param("s", $data["username"]);
             $stmt->execute();
 
             //get user ID of the just created username by selecting the row with the highest user id
-            //TO DO: there can be multiple users with the same name 
             $sql = "SELECT * FROM `User` WHERE `User`.`Username` = ? AND `User`.`User_ID` = (SELECT MAX(`User_ID`) FROM `User` WHERE `User`.`Username` = ?)";
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param("ss", $data['username'], $data['username']);
@@ -85,7 +86,7 @@ class DataHandler
         
     }
    
-
+    //selects ALL appointments for overview onload
     public function queryAppointments() {        
         
         // SELECT from table "appointment" to display all appointments
@@ -103,7 +104,7 @@ class DataHandler
         return $result;    
     }
 
-
+    //queries all dates to a specific appointment id
     public function queryDates($App_ID) {
         //Join über alle Tabellen
         $sql = "SELECT *  FROM Termin WHERE FK_App_ID = $App_ID";
@@ -122,8 +123,9 @@ class DataHandler
         return $result;
     }
 
+    //queries all selected user dates, comments from a specific appointment
     public function queryHistory($App_ID) {
-        //Join über alle Tabellen
+        //selects all data 
         $sql ="SELECT `Termin_ID`, `Datum`, `Uhrzeit_von`, `Uhrzeit_bis`, `Termin`.`FK_App_ID`, `User`.`Username`,`Kommentiert`.`Kommentar` FROM `Appointment` JOIN `Termin` ON `Appointment`.`App_ID` = `Termin`.`FK_App_ID` JOIN `Gebucht` ON `Termin`.`Termin_ID`= `Gebucht`.`FK_Termin_ID` JOIN `User` ON `Gebucht`.`FK_User_ID` = `User`.`User_ID` LEFT JOIN `Kommentiert` ON `User`.`User_ID`= `Kommentiert`.`FK_User_ID` WHERE `Appointment`.`App_ID` = $App_ID GROUP BY `Termin`.`Termin_ID`"; 
         $stmt = $this->conn ->prepare($sql);
         $stmt->execute();
@@ -136,7 +138,9 @@ class DataHandler
         }
         return $result;
     }
-
+    
+    //removes the appointment by first deleted the date references and then the appointment
+    //NOT COMPLETE/WORKING YET
     public function removeAppointment($App_ID){
 
         // TO DO: "on delete cascade" einstellen bei der Tabelle Appointment
@@ -150,13 +154,14 @@ class DataHandler
 
     //creates new Appointment
     public function addAppointment($data) {
+
+        //creates the new appointment
         $sql= "INSERT INTO `Appointment` (`Titel`,`Ort`,`Ablaufdatum`) VALUES(?,?,?)";
         $stmt = $this->conn ->prepare($sql);
         $stmt->bind_param("sss", $data["newAppointmentTitle"], $data["newAppointmentPlace"],$data["newAppointmentExpirationDate"]);
         $stmt->execute();
 
-
-
+        //selects the just created appointment by selecting the highest appointment ID
         $sql = "SELECT * FROM `Appointment` WHERE `Appointment`.`App_ID` = (SELECT MAX(`App_ID`) FROM `Appointment`)";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
@@ -164,13 +169,12 @@ class DataHandler
         $row = $res->fetch_array();
         $App_ID = $row["App_ID"];
 
-        $length = count($data);
-        error_log($length);
         //prepares for inserting dates into db
         $sql= "INSERT INTO `Termin` (`Datum`,`Uhrzeit_von`,`Uhrzeit_bis`,`FK_App_ID`) VALUES(?,?,?,?)";
         $stmt = $this->conn ->prepare($sql);
         //iterates through data and gets each date and insterts it into the "Termin" table (for loop does no work here because phparrayindexes are different somehow)
-
+        
+        //adds each date into the "Termin" table with the newly created appointment ID
         foreach ($data["newDates"] as $newDate) {
             $dateInput = $newDate[0];
             $fromInput = $newDate[1];
@@ -180,7 +184,7 @@ class DataHandler
             $stmt->execute();
         }
         
-/*      FOR LOOP DOES NOT WORK
+/*      FOR LOOP DOES NOT WORK HERE
         for ($i = 0; $i < $length-1; $i++ ) {
         
            // error_log(($data["newDates"][$i][0]));
@@ -195,7 +199,6 @@ class DataHandler
             $stmt->execute();
         }
 */ 
-
         $successMessage = "Appointment created successfully!";
         return $successMessage;
     }
