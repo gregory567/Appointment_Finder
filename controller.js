@@ -247,20 +247,19 @@ function addAppointment() {
     var newAppointmentTitle =  $("#appointmentPlaceInput").val();
     var newAppointmentPlace =  $("#appointmentTitleInput").val();
     var newAppointmentExpirationDate =  $("#appointmentExpirationDateInput").val();
-    console.log()
 
     //creates newDates array that stores the values of each row (inputfields for date)
     var newDates = [];
-    console.log(dateCounter);
+    //console.log(dateCounter);
 
     //adds the dates data as an array to the newDates array
-    for (let i = 0; i <= dateCounter; i++) {
+
+    for (let i = 0; i < dateCounter; i++) {
         let dates = [];
-        console.log($('#datumInput0').val());
         dates.push($('#datumInput'+i).val());
         dates.push($('#uhrzeitVonInput'+i).val());
         dates.push($('#uhrzeitBisInput'+i).val());
-
+        console.log(i);
         newDates.push(dates);
     }
 
@@ -328,30 +327,31 @@ function addAppointment() {
     });
 }
 
+var dateCounter = 1;
 
-let dateCounter = 0;
 function addDate() {
-    let newRow = document.createElement("div");
-    newRow.classList.add("mb-3");
-    newRow.innerHTML = `
-        <div class="row">
-            <div class="col-md-4">
-                <label for="datumInput${dateCounter}" class="form-label">Datum:</label>
-                <input type="date" class="form-control" id="datumInput${dateCounter}" required>
-            </div>
-            <div class="col-md-4">
-                <label for="uhrzeitVonInput${dateCounter}" class="form-label">Uhrzeit von:</label>
-                <input type="time" class="form-control" id="uhrzeitVonInput${dateCounter}" required>
-            </div>
-            <div class="col-md-4">
-                <label for="uhrzeitBisInput${dateCounter}" class="form-label">Uhrzeit bis:</label>
-                <input type="time" class="form-control" id="uhrzeitBisInput${dateCounter}" required>
-            </div>
-        </div>
-    `;
-    document.getElementById("additionalRows").appendChild(newRow);
+    var newRow = $("<div>").addClass("mb-3");
+    console.log(dateCounter);
+    newRow.html(
+        '<div class="row">' +
+        '<div class="col-md-4">' +
+        '<label for="datumInput' + dateCounter + '" class="form-label">Datum:</label>' +
+        '<input type="date" class="form-control" id="datumInput' + dateCounter + '" required>' +
+        '</div>' +
+        '<div class="col-md-4">' +
+        '<label for="uhrzeitVonInput' + dateCounter + '" class="form-label">Uhrzeit von:</label>' +
+        '<input type="time" class="form-control" id="uhrzeitVonInput' + dateCounter + '" required>' +
+        '</div>' +
+        '<div class="col-md-4">' +
+        '<label for="uhrzeitBisInput' + dateCounter + '" class="form-label">Uhrzeit bis:</label>' +
+        '<input type="time" class="form-control" id="uhrzeitBisInput' + dateCounter + '" required>' +
+        '</div>' +
+        '</div>'
+    );
+    $("#additionalRows").append(newRow);
     dateCounter++;
 }
+
 
 
 
