@@ -150,16 +150,32 @@ class DataHandler
         //prepares for inserting dates into db
         $sql= "INSERT INTO `Termin` (`Datum`,`Uhrzeit_von`,`Uhrzeit_bis`,`FK_App_ID`) VALUES(?,?,?,?)";
         $stmt = $this->conn ->prepare($sql);
-        //iterates through data and gets each date and insterts it into the "Termin" table
+        //iterates through data and gets each date and insterts it into the "Termin" table (for loop does no work here because phparrayindexes are different somehow)
+
+        foreach ($data["newDates"] as $newDate) {
+            $dateInput = $newDate[0];
+            $fromInput = $newDate[1];
+            $untilInput = $newDate[2];
+        
+            $stmt->bind_param("sssi", $dateInput, $fromInput, $untilInput, $App_ID);
+            $stmt->execute();
+        }
+        
+/*      FOR LOOP DOES NOT WORK
         for ($i = 0; $i < $length-1; $i++ ) {
-            $dateInput= $data["newDates"][$i][0];
-            $fromInput= $data["newDates"][$i][1];
-            $untilInput= $data["newDates"][$i][2];
+        
+           // error_log(($data["newDates"][$i][0]));
+           // error_log(($data["newDates"][$i][1]));
+           // error_log(($data["newDates"][$i][2]));
+
+            $dateInput= $data["newDates"][$i][2];
+            $fromInput= $data["newDates"][$i][3];
+            $untilInput= $data["newDates"][$i][4];
 
             $stmt->bind_param("sssi", $dateInput,$fromInput,$untilInput,$App_ID);
             $stmt->execute();
         }
-        
+*/ 
 
         $successMessage = "Appointment created successfully!";
         return $successMessage;
