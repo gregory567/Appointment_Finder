@@ -243,15 +243,33 @@ function loadAllAppointments() {
 
 function addAppointment() {
 
+    //variables for each date input row
     var newAppointmentTitle =  $("#appointmentPlaceInput").val();
     var newAppointmentPlace =  $("#appointmentTitleInput").val();
     var newAppointmentExpirationDate =  $("#appointmentExpirationDateInput").val();
+    console.log()
 
+    //creates newDates array that stores the values of each row (inputfields for date)
+    var newDates = [];
+    console.log(dateCounter);
+
+    //adds the dates data as an array to the newDates array
+    for (let i = 0; i <= dateCounter; i++) {
+        let dates = [];
+        console.log($('#datumInput0').val());
+        dates.push($('#datumInput'+i).val());
+        dates.push($('#uhrzeitVonInput'+i).val());
+        dates.push($('#uhrzeitBisInput'+i).val());
+
+        newDates.push(dates);
+    }
 
     var data = {};
     data["newAppointmentTitle"] = newAppointmentTitle;
     data["newAppointmentPlace"] = newAppointmentPlace;
     data["newAppointmentExpirationDate"] = newAppointmentExpirationDate;
+    data["newDates"] = newDates;
+
     console.log(data);
  
 
@@ -298,6 +316,7 @@ function addAppointment() {
 
             //updates the appointments
             loadAllAppointments();
+            rowcounter = 0;
 
             console.log("addAppointment happened!");
             
@@ -309,27 +328,31 @@ function addAppointment() {
     });
 }
 
+
+let dateCounter = 0;
 function addDate() {
     let newRow = document.createElement("div");
     newRow.classList.add("mb-3");
     newRow.innerHTML = `
         <div class="row">
             <div class="col-md-4">
-                <label for="datumInput" class="form-label">Datum:</label>
-                <input type="date" class="form-control" id="datumInput" required>
+                <label for="datumInput${dateCounter}" class="form-label">Datum:</label>
+                <input type="date" class="form-control" id="datumInput${dateCounter}" required>
             </div>
             <div class="col-md-4">
-                <label for="uhrzeitVonInput" class="form-label">Uhrzeit von:</label>
-                <input type="time" class="form-control" id="uhrzeitVonInput" required>
+                <label for="uhrzeitVonInput${dateCounter}" class="form-label">Uhrzeit von:</label>
+                <input type="time" class="form-control" id="uhrzeitVonInput${dateCounter}" required>
             </div>
             <div class="col-md-4">
-                <label for="uhrzeitBisInput" class="form-label">Uhrzeit bis:</label>
-                <input type="time" class="form-control" id="uhrzeitBisInput" required>
+                <label for="uhrzeitBisInput${dateCounter}" class="form-label">Uhrzeit bis:</label>
+                <input type="time" class="form-control" id="uhrzeitBisInput${dateCounter}" required>
             </div>
         </div>
     `;
     document.getElementById("additionalRows").appendChild(newRow);
+    dateCounter++;
 }
+
 
 
 function toggleAddAppointmentFields() {
