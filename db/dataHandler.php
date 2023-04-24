@@ -1,6 +1,7 @@
 <?php
 include("./models/appointment.php");
 include("./models/termin.php");
+include("./models/history.php");
 require_once("./dbaccess.php"); //to retrieve connection details
 
 
@@ -105,8 +106,8 @@ class DataHandler
 
     public function queryDates($App_ID) {
         //Join über alle Tabellen
-        //$sql = "SELECT *  FROM Termin WHERE FK_App_ID = $App_ID";
-        $sql= "SELECT  `Termin_ID`,`Datum`, `Uhrzeit_von`,`Uhrzeit_bis`,`Termin`.`FK_App_ID`, count(*) AS `Count` FROM `Appointment` JOIN `Termin` ON `Appointment`.`App_ID` = `Termin`.`FK_App_ID` JOIN `Gebucht` ON `Termin`.`Termin_ID`= `Gebucht`.`FK_Termin_ID` JOIN `User` ON `Gebucht`.`FK_User_ID` = `User`.`User_ID` JOIN `Kommentiert` ON `User`.`User_ID`= `Kommentiert`.`FK_User_ID`  WHERE `Appointment`.`App_ID` = $App_ID GROUP BY `Termin`.`Termin_ID`";
+        $sql = "SELECT *  FROM Termin WHERE FK_App_ID = $App_ID";
+        //$sql= "SELECT  `Termin_ID`,`Datum`, `Uhrzeit_von`,`Uhrzeit_bis`,`Termin`.`FK_App_ID`, count(*) AS `Count` FROM `Appointment` JOIN `Termin` ON `Appointment`.`App_ID` = `Termin`.`FK_App_ID` JOIN `Gebucht` ON `Termin`.`Termin_ID`= `Gebucht`.`FK_Termin_ID` JOIN `User` ON `Gebucht`.`FK_User_ID` = `User`.`User_ID` JOIN `Kommentiert` ON `User`.`User_ID`= `Kommentiert`.`FK_User_ID`  WHERE `Appointment`.`App_ID` = $App_ID GROUP BY `Termin`.`Termin_ID`";
 
         //$sql = "SELECT count(*)  FROM `Appointment` JOIN `Termin` ON `Appointment`.`App_ID` = `Termin`.`FK_App_ID` JOIN `Gebucht` ON `Termin`.`Termin_ID`= `Gebucht`.`FK_Termin_ID` JOIN `User` ON `Gebucht`.`FK_User_ID` = `User`.`User_ID` JOIN `Kommentiert` ON `User`.`User_ID`= `Kommentiert`.`FK_User_ID`  WHERE `Appointment`.`App_ID` = $App_ID";
         $stmt = $this->conn ->prepare($sql);
@@ -115,21 +116,24 @@ class DataHandler
 
         $result = array();
         while ($row = $res->fetch_assoc()) {
-            $termin = new Termin($row['Termin_ID'], $row['Datum'], $row['Uhrzeit_von'], $row['Uhrzeit_bis'],$row['FK_App_ID'],$row[`voteCount`]);
+            $termin = new Termin($row['Termin_ID'], $row['Datum'], $row['Uhrzeit_von'], $row['Uhrzeit_bis'],$row['FK_App_ID']);
             array_push($result, $termin);
         }
+        return $result;
+    }
 
+    public function queryHistory($App_ID) {
+        //Join über alle Tabellen
+        $sql ="SELECT `Termin_ID`, `Datum`, `Uhrzeit_von`, `Uhrzeit_bis`, `Termin`.`FK_App_ID`, `User`.`Username`,`Kommentiert`.`Kommentar` FROM `Appointment` JOIN `Termin` ON `Appointment`.`App_ID` = `Termin`.`FK_App_ID` JOIN `Gebucht` ON `Termin`.`Termin_ID`= `Gebucht`.`FK_Termin_ID` JOIN `User` ON `Gebucht`.`FK_User_ID` = `User`.`User_ID` LEFT JOIN `Kommentiert` ON `User`.`User_ID`= `Kommentiert`.`FK_User_ID` WHERE `Appointment`.`App_ID` = $App_ID GROUP BY `Termin`.`Termin_ID`"; 
+        $stmt = $this->conn ->prepare($sql);
+        $stmt->execute();
+        $res = $stmt->get_result();
 
-
-
-
-
-
-
-
-
-
-
+        $result = array();
+        while ($row = $res->fetch_assoc()) {
+            $history = new History($row['Termin_ID'], $row['Datum'], $row['Uhrzeit_von'], $row['Uhrzeit_bis'],$row['FK_App_ID'], $row['Username'],$row['Kommentar']);
+            array_push($result, $history);
+        }
         return $result;
     }
 

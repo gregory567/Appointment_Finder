@@ -86,6 +86,7 @@ function getDates(appId) {
     
     var table = $('#table'+appId);
     var column = $('#column'+appId);
+    var history = $('#history');
     var inputUsername = $("<input>").attr({
         "type":"text",
         "id":"username"+appId
@@ -117,6 +118,7 @@ function getDates(appId) {
         button.text("Show Dates");
     //if dates are not visible make ajax call and show dates
     } else {
+        //ajax call to get da dates table
         $.ajax({
             type: "GET",
             url: "./serviceHandler.php",
@@ -125,10 +127,10 @@ function getDates(appId) {
             dataType: "json",
             success: function (response) {
                 //create the date table and fill them with date information and add checkbox
-                var table = "<table id='table"+appId+"'><thead><tr><th>Datum</th><th>Von</th><th>Bis</th><th>Votes</th><th></th></tr></thead><tbody>";
+                var table = "<table id='table"+appId+"'><thead><tr><th>Datum</th><th>Von</th><th>Bis</th><th></th></tr></thead><tbody>";
                 $.each(response, function(i, v) {
                     table += "<tr id='"+v.Termin_ID+"'><td>" + v.Datum + "</td><td>" + v.Uhrzeit_von + "</td><td>" + v.Uhrzeit_bis +
-                    "</td><td></td><td><input type='checkbox' class='form-check-input'></td></tr>";
+                    "</td><td><input type='checkbox' class='form-check-input'></td></tr>";
 
                 });
                 table += "</tbody></table>";
@@ -138,10 +140,6 @@ function getDates(appId) {
                 column.prepend(inputUsername);
                 column.prepend("<div>" + table + "</div>");
                 button.text("Hide Dates");
-       
-                // append input element to div
-                console.log(button);
-                console.log(inputUsername);
                 console.log("date list ready");
              
             },
@@ -149,6 +147,34 @@ function getDates(appId) {
                 console.log("Error: " + error);
             } 
         });
+        //ajax call to get history
+        $.ajax({
+            type: "GET",
+            url: "./serviceHandler.php",
+            cache: false,
+            data: {method: "queryHistory", param: appId},
+            dataType: "json",
+            success: function (response) {
+                //create the history table and fill them with data
+                var historyTable = "<table id='historyTable"+appId+"'><thead><tr><th>Datum</th><th>Von</th><th>Bis</th><th>Username</th><th>Kommentar</th></tr></thead><tbody>";
+                $.each(response, function(i, v) {
+                    historyTable += "<tr id='"+v.Termin_ID+"'><td>" + v.Datum + "</td><td>" + v.Uhrzeit_von + "</td><td>" + v.Uhrzeit_bis +
+                    "</td><td>" + v.Username + "</td><td>" + v.Kommentar + "</td></tr>";
+
+                });
+                historyTable += "</tbody></table>";
+                //adds the table to the dates column and changes button name
+                
+                history.prepend("<div>" + historyTable + "</div>");
+                
+                console.log("date list ready");
+             
+            },
+            error: function(error) {
+                console.log("Error: " + error);
+            } 
+        });
+
 
  
     }
