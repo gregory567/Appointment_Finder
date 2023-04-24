@@ -39,26 +39,43 @@
         </div>
 
         <div class="row" id="appointmentInputFields">
-            <div class="col-md-6" id="addAppointmentInputFields">
+            <div class="row">
+                <div class="col-md-6" id="addAppointmentInputFields">
+                    <div class="mb-3">
+                        <label for="appointmentTitleInput" class="form-label">Appointment Title:</label>
+                        <input type="text" class="form-control" id="appointmentTitleInput" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="appointmentPlaceInput" class="form-label">Appointment Place:</label>
+                        <input type="text" class="form-control" id="appointmentPlaceInput" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="appointmentExpirationDateInput" class="form-label">Appointment Expiration Date:</label>
+                        <input type="date" class="form-control" id="appointmentExpirationDateInput" required>
+                    </div>
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="datumInput" class="form-label">Datum:</label>
+                                <input type="date" class="form-control" id="datumInput" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="uhrzeitVonInput" class="form-label">Uhrzeit von:</label>
+                                <input type="time" class="form-control" id="uhrzeitVonInput" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="uhrzeitBisInput" class="form-label">Uhrzeit bis:</label>
+                                <input type="time" class="form-control" id="uhrzeitBisInput" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="additionalRows"></div>
+                    <button id="addRowButton" class="choose-btn justify-content-center col-md-6" onclick="addDate()">Add Date</button>
+                    <button id="addAppointmentButton" class="choose-btn justify-content-center col-md-6" onclick="addAppointment()">Create</button>
 
-                <div class="mb-3">
-                    <label for="appointmentTitleInput" class="form-label">Appointment Title:</label>
-                    <input type="text" class="form-control" id="appointmentTitleInput">
                 </div>
-                <div class="mb-3">
-                    <label for="appointmentPlaceInput" class="form-label">Appointment Place:</label>
-                    <input type="text" class="form-control" id="appointmentPlaceInput">
-                </div>
-                <div class="mb-3">
-                    <label for="appointmentExpirationDateInput" class="form-label">Appointment Expiration Date:</label>
-                    <input type="date" class="form-control" id="appointmentExpirationDateInput">
-                   
-                </div>
-                <div class="mb-3">
-                    <button id='addAppointmentButton' class='choose-btn justify-content-center col-md-6' onclick='addAppointment()'>Create</button>
-              </div>
-
             </div>
+            
         </div>
     </div>
     

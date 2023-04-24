@@ -309,9 +309,35 @@ function addAppointment() {
     });
 }
 
+function addDate() {
+    let newRow = document.createElement("div");
+    newRow.classList.add("mb-3");
+    newRow.innerHTML = `
+        <div class="row">
+            <div class="col-md-4">
+                <label for="datumInput" class="form-label">Datum:</label>
+                <input type="date" class="form-control" id="datumInput" required>
+            </div>
+            <div class="col-md-4">
+                <label for="uhrzeitVonInput" class="form-label">Uhrzeit von:</label>
+                <input type="time" class="form-control" id="uhrzeitVonInput" required>
+            </div>
+            <div class="col-md-4">
+                <label for="uhrzeitBisInput" class="form-label">Uhrzeit bis:</label>
+                <input type="time" class="form-control" id="uhrzeitBisInput" required>
+            </div>
+        </div>
+    `;
+    document.getElementById("additionalRows").appendChild(newRow);
+}
+
+
 function toggleAddAppointmentFields() {
     $("#addAppointmentInputFields").fadeToggle();
   }
+
+
+
 
 
 
