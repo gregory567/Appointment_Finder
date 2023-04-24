@@ -165,7 +165,8 @@ function removeAppointment(appId){
         dataType: "json",
         success: function (response) {
             console.log(response);
-
+            
+            //----------------------------------------------------------------
             // create the modal content with the response
             var modalContent = $('<div>').addClass('modal-content')
             .append($('<div>').addClass('modal-header')
@@ -191,12 +192,12 @@ function removeAppointment(appId){
             });
 
             loadAllAppointments();
+            //----------------------------------------------------------------
         },
         error: function(error) {
             console.log("Error: " + error);
         } 
     });
-
 }
 
 
@@ -287,8 +288,8 @@ function addAppointment() {
             $("#appointmentExpirationDateInput").val('');
 
             toggleAddAppointmentFields();
-   
-
+            
+            //---------------------------------------------------------------------
             // create the modal content with the response
             var modalContent = $('<div>').addClass('modal-content')
             .append($('<div>').addClass('modal-header')
@@ -312,10 +313,21 @@ function addAppointment() {
                 $(this).closest('.modal').modal('hide'); // hide the modal
                 $(this).closest('.modal').remove(); // remove the modal from the DOM
             });
+            //---------------------------------------------------------------------
 
             //updates the appointments
             loadAllAppointments();
-            rowcounter = 0;
+
+            //remove the additional dateRows by deleting the child elements of the additionalRows div
+            
+            var additionalRows = document.getElementById("additionalRows");
+            additionalRows.innerHTML = "";
+            //reset global dateCounter
+            dateCounter = 1;
+            //reset the values of the initial input field
+            $("#datumInput0").val("");
+            $("#uhrzeitVonInput0").val("");
+            $("#uhrzeitBisInput0").val("");
 
             console.log("addAppointment created!");
             
@@ -358,6 +370,7 @@ function addDate() {
 function toggleAddAppointmentFields() {
     $("#addAppointmentInputFields").fadeToggle();
   }
+
 
 
 
