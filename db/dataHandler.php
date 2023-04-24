@@ -151,7 +151,7 @@ class DataHandler
         $sql= "INSERT INTO `Termin` (`Datum`,`Uhrzeit_von`,`Uhrzeit_bis`,`FK_App_ID`) VALUES(?,?,?,?)";
         $stmt = $this->conn ->prepare($sql);
         //iterates through data and gets each date and insterts it into the "Termin" table
-        for ($i = 0; $i < $length; $i++ ) {
+        for ($i = 0; $i < $length-1; $i++ ) {
             $dateInput= $data["newDates"][$i][0];
             $fromInput= $data["newDates"][$i][1];
             $untilInput= $data["newDates"][$i][2];

@@ -244,8 +244,8 @@ function loadAllAppointments() {
 function addAppointment() {
 
     //variables for each date input row
-    var newAppointmentTitle =  $("#appointmentPlaceInput").val();
-    var newAppointmentPlace =  $("#appointmentTitleInput").val();
+    var newAppointmentTitle =  $("#appointmentTitleInput").val();
+    var newAppointmentPlace =  $("#appointmentPlaceInput").val();
     var newAppointmentExpirationDate =  $("#appointmentExpirationDateInput").val();
 
     //creates newDates array that stores the values of each row (inputfields for date)
