@@ -125,10 +125,10 @@ function getDates(appId) {
             dataType: "json",
             success: function (response) {
                 //create the date table and fill them with date information and add checkbox
-                var table = "<table id='table"+appId+"'><thead><tr><th>Datum</th><th>Von</th><th>Bis</th><th></th></tr></thead><tbody>";
+                var table = "<table id='table"+appId+"'><thead><tr><th>Datum</th><th>Von</th><th>Bis</th><th>Votes</th><th></th></tr></thead><tbody>";
                 $.each(response, function(i, v) {
                     table += "<tr id='"+v.Termin_ID+"'><td>" + v.Datum + "</td><td>" + v.Uhrzeit_von + "</td><td>" + v.Uhrzeit_bis +
-                    "</td><td><input type='checkbox' class='form-check-input'></td></tr>";
+                    "</td><td></td><td><input type='checkbox' class='form-check-input'></td></tr>";
 
                 });
                 table += "</tbody></table>";

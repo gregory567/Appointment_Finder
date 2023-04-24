@@ -104,16 +104,31 @@ class DataHandler
 
 
     public function queryDates($App_ID) {
-        $sql = "SELECT *  FROM `Termin` WHERE `FK_App_ID` = $App_ID";
+        //Join über alle Tabellen
+        //$sql = "SELECT *  FROM Termin WHERE FK_App_ID = $App_ID";
+        $sql= "SELECT  `Termin_ID`,`Datum`, `Uhrzeit_von`,`Uhrzeit_bis`,`Termin`.`FK_App_ID`, count(*) AS `Count` FROM `Appointment` JOIN `Termin` ON `Appointment`.`App_ID` = `Termin`.`FK_App_ID` JOIN `Gebucht` ON `Termin`.`Termin_ID`= `Gebucht`.`FK_Termin_ID` JOIN `User` ON `Gebucht`.`FK_User_ID` = `User`.`User_ID` JOIN `Kommentiert` ON `User`.`User_ID`= `Kommentiert`.`FK_User_ID`  WHERE `Appointment`.`App_ID` = $App_ID GROUP BY `Termin`.`Termin_ID`";
+
+        //$sql = "SELECT count(*)  FROM `Appointment` JOIN `Termin` ON `Appointment`.`App_ID` = `Termin`.`FK_App_ID` JOIN `Gebucht` ON `Termin`.`Termin_ID`= `Gebucht`.`FK_Termin_ID` JOIN `User` ON `Gebucht`.`FK_User_ID` = `User`.`User_ID` JOIN `Kommentiert` ON `User`.`User_ID`= `Kommentiert`.`FK_User_ID`  WHERE `Appointment`.`App_ID` = $App_ID";
         $stmt = $this->conn ->prepare($sql);
         $stmt->execute();
         $res = $stmt->get_result();
 
         $result = array();
         while ($row = $res->fetch_assoc()) {
-            $termin = new Termin($row['Termin_ID'], $row['Datum'], $row['Uhrzeit_von'], $row['Uhrzeit_bis'],$row['FK_App_ID']);
+            $termin = new Termin($row['Termin_ID'], $row['Datum'], $row['Uhrzeit_von'], $row['Uhrzeit_bis'],$row['FK_App_ID'],$row[`voteCount`]);
             array_push($result, $termin);
         }
+
+
+
+
+
+
+
+
+
+
+
 
         return $result;
     }
