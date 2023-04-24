@@ -317,7 +317,7 @@ function addAppointment() {
             loadAllAppointments();
             rowcounter = 0;
 
-            console.log("addAppointment happened!");
+            console.log("addAppointment created!");
             
         },
         error: function(error) {

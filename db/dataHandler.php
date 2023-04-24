@@ -135,6 +135,32 @@ class DataHandler
         $stmt = $this->conn ->prepare($sql);
         $stmt->bind_param("sss", $data["newAppointmentTitle"], $data["newAppointmentPlace"],$data["newAppointmentExpirationDate"]);
         $stmt->execute();
+
+
+
+        $sql = "SELECT * FROM `Appointment` WHERE `Appointment`.`App_ID` = (SELECT MAX(`App_ID`) FROM `Appointment`)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $row = $res->fetch_array();
+        $App_ID = $row["App_ID"];
+
+        $length = count($data);
+        error_log($length);
+        //prepares for inserting dates into db
+        $sql= "INSERT INTO `Termin` (`Datum`,`Uhrzeit_von`,`Uhrzeit_bis`,`FK_App_ID`) VALUES(?,?,?,?)";
+        $stmt = $this->conn ->prepare($sql);
+        //iterates through data and gets each date and insterts it into the "Termin" table
+        for ($i = 0; $i < $length; $i++ ) {
+            $dateInput= $data["newDates"][$i][0];
+            $fromInput= $data["newDates"][$i][1];
+            $untilInput= $data["newDates"][$i][2];
+
+            $stmt->bind_param("sssi", $dateInput,$fromInput,$untilInput,$App_ID);
+            $stmt->execute();
+        }
+        
+
         $successMessage = "Appointment created successfully!";
         return $successMessage;
     }
