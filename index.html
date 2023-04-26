@@ -13,34 +13,34 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-md-6" id="appointmentList">
-               
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" id="appointmentList">
             </div>
-                <div class="col-md-6" id="history">
+            
+            <div class="col-lg  col-md col-sm-12 col-xs-12" id="history">
             </div>
         </div>
 
         <div class="row">
-            <button id='addAppointmentButton' class='choose-btn justify-content-center col-md-6' onclick='toggleAddAppointmentFields()'>New Appointment</button>
+            <button id='addAppointmentButton' class='choose-btn justify-content-center col-lg-8 col-md-8 col-sm-12 col-xs-12' onclick='toggleAddAppointmentFields()'>New Appointment</button>
 
         </div>
 
         <div class="row" id="appointmentInputFields">
             <div class="row">
-                <div class="col-md-6" id="addAppointmentInputFields">
-                    <div class="mb-3">
+                <div class="col-md-5" id="addAppointmentInputFields">
+                    <div class="mb-5">
                         <label for="appointmentTitleInput" class="form-label">Appointment Title:</label>
                         <input type="text" class="form-control" id="appointmentTitleInput" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-5">
                         <label for="appointmentPlaceInput" class="form-label">Appointment Place:</label>
                         <input type="text" class="form-control" id="appointmentPlaceInput" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-5">
                         <label for="appointmentExpirationDateInput" class="form-label">Appointment Expiration Date:</label>
                         <input type="date" class="form-control" id="appointmentExpirationDateInput" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-5">
                         <div class="row">
                             <div class="col-md-4">
                                 <label for="datumInput" class="form-label">Datum:</label>
@@ -57,8 +57,8 @@
                         </div>
                     </div>
                     <div id="additionalRows"></div>
-                    <button id="addRowButton" class="choose-btn justify-content-center col-md-6" onclick="addDate()">Add Date</button>
-                    <button id="addAppointmentButton" class="choose-btn justify-content-center col-md-6" onclick="addAppointment()">Create</button>
+                    <button id="addRowButton" class="choose-btn justify-content-center col-md-5" onclick="addDate()">Add Date</button>
+                    <button id="addAppointmentButton" class="choose-btn justify-content-center col-md-5" onclick="addAppointment()">Create</button>
 
                 </div>
             </div>
