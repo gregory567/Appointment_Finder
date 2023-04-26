@@ -111,13 +111,14 @@ function getDates(appId) {
     var submitButton =$('#submit'+appId);
 
 
-    //if the dates are visible ->hide and change button name
+    //if the dates are visible ->hide and change button name and deleted history
     if (table.is(":visible")) {
-        table.toggle();
-        username.toggle();
-        comment.toggle();
-        submitButton.toggle();
-        button.text("Show Dates");
+        loadAllAppointments(); //when the hide button gets clicked ALL dates are hidden again
+       // table.toggle();
+       // username.toggle();
+       // comment.toggle();
+       // submitButton.toggle();
+       // button.text("Show Dates");
         history.empty();
     //if dates are not visible make ajax call and show dates
     } else {
@@ -138,6 +139,7 @@ function getDates(appId) {
                 });
                 table += "</tbody></table>";
                 //adds the table to the dates column and changes button name
+               
                 column.prepend(submit);
                 column.prepend(inputComment);
                 column.prepend(inputUsername);
@@ -168,6 +170,7 @@ function getDates(appId) {
                 });
                 historyTable += "</tbody></table>";
                 //adds the table to the dates column and changes button name
+                history.empty();
                 history.prepend("<div>" + historyTable + "</div>");
                 console.log("date list ready");
              

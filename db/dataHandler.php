@@ -6,10 +6,10 @@ require_once("./dbaccess.php");
 
 
 /*
-INSERT INTO `appointment` (`Titel`, `Ort`, `Ablaufdatum`) VALUES ('Fussball Training', 'Platz 1', '2023-04-20');
-INSERT INTO `appointment` (`Titel`, `Ort`, `Ablaufdatum`) VALUES ('Buchbörse', 'Bibliothek', '2023-04-20');
-INSERT INTO `appointment` (`Titel`, `Ort`, `Ablaufdatum`) VALUES ('Film', 'Kino', '2023-04-20');
-INSERT INTO `appointment` (`Titel`, `Ort`, `Ablaufdatum`) VALUES ('Konzert', 'Konzerthaus', '2023-04-20');
+INSERT INTO `Appointment` (`Titel`, `Ort`, `Ablaufdatum`) VALUES ('Fussball Training', 'Platz 1', '2023-04-30');
+INSERT INTO `Appointment` (`Titel`, `Ort`, `Ablaufdatum`) VALUES ('Buchbörse', 'Bibliothek', '2023-04-30');
+INSERT INTO `Appointment` (`Titel`, `Ort`, `Ablaufdatum`) VALUES ('Film', 'Kino', '2023-04-30');
+INSERT INTO `Appointment` (`Titel`, `Ort`, `Ablaufdatum`) VALUES ('Konzert', 'Konzerthaus', '2023-04-30');
 */
     
 
@@ -52,9 +52,9 @@ class DataHandler
         } else {
 
             //create user table via prepared statements
-            $sql= "INSERT INTO `User` (`Username`) VALUES(?)";
+            $sql= "INSERT INTO `User` (`Username`,`FK_App_ID`) VALUES(?,?)";
             $stmt = $this->conn ->prepare($sql);
-            $stmt->bind_param("s", $data["username"]);
+            $stmt->bind_param("si", $data["username"],$data["appId"]);
             $stmt->execute();
 
             //get user ID of the just created username by selecting the row with the highest user id
