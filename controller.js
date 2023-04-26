@@ -118,6 +118,7 @@ function getDates(appId) {
         comment.toggle();
         submitButton.toggle();
         button.text("Show Dates");
+        history.empty();
     //if dates are not visible make ajax call and show dates
     } else {
         //ajax call to get da dates table
@@ -167,9 +168,7 @@ function getDates(appId) {
                 });
                 historyTable += "</tbody></table>";
                 //adds the table to the dates column and changes button name
-                
                 history.prepend("<div>" + historyTable + "</div>");
-                
                 console.log("date list ready");
              
             },
@@ -393,8 +392,6 @@ function addDate() {
     $("#additionalRows").append(newRow);
     dateCounter++;
 }
-
-
 
 
 function toggleAddAppointmentFields() {
