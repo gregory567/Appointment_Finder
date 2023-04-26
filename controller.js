@@ -81,7 +81,7 @@ function submitDates(appId) {
 
 
 //loads and shows available dates of the chosen appointment and the history of the appointment after the "Show Dates" button is clicked
-function getDates(appId) {
+function getDates(appId, appTitel) {
 
     var button = $('#button'+appId);
     console.log(button);
@@ -113,12 +113,11 @@ function getDates(appId) {
 
     //if the dates are visible ->hide and change button name and deleted history
     if (table.is(":visible")) {
-        loadAllAppointments(); //when the hide button gets clicked ALL dates are hidden again
-       // table.toggle();
-       // username.toggle();
-       // comment.toggle();
-       // submitButton.toggle();
-       // button.text("Show Dates");
+        table.toggle();
+        username.toggle();
+        comment.toggle();
+        submitButton.toggle();
+        button.text("Show Dates");
         history.empty();
     //if dates are not visible make ajax call and show dates
     } else {
@@ -162,6 +161,7 @@ function getDates(appId) {
             dataType: "json",
             success: function (response) {
                 //create the history table and fill them with data
+                var historyTitle = "<p> History of Appointment " + appTitel + ":</p>";
                 var historyTable = "<table id='historyTable"+appId+"'><thead><tr><th>Datum</th><th>Von</th><th>Bis</th><th>Username</th><th>Kommentar</th></tr></thead><tbody>";
                 $.each(response, function(i, v) {
                     historyTable += "<tr id='"+v.Termin_ID+"'><td>" + v.Datum + "</td><td>" + v.Uhrzeit_von + "</td><td>" + v.Uhrzeit_bis +
@@ -171,7 +171,8 @@ function getDates(appId) {
                 historyTable += "</tbody></table>";
                 //adds the table to the dates column and changes button name
                 history.empty();
-                history.prepend("<div>" + historyTable + "</div>");
+                history.append(historyTitle);
+                history.append("<div>" + historyTable + "</div>");
                 console.log("date list ready");
              
             },
@@ -249,6 +250,7 @@ function loadAllAppointments() {
             $.each(response, function(i, v) {
                 //buttonID = App_ID which is used for get the Appointment information within the onclick event
                 var appointmentId = v.appId;
+                var appointmentTitel = v.titel;
                 //"date" and "now" used to check if appointment is expired
                 const dateString = v.ablaufDatum; // ablaufDatum string in yyyy-mm-dd format
                 const dateParts = dateString.split("-"); // split the string into an array of year, month, and day
@@ -259,7 +261,7 @@ function loadAllAppointments() {
                 if(date.getTime() < now.getTime()){
                     table += "<tr><td>" + v.titel + "</td><td>" + v.ort + "</td><td>" + v.ablaufDatum + "</td><td id='column"+appointmentId+"'>Expired</td><td><button id='removeButton"+appointmentId+"' class='remove-btn' onclick='removeAppointment(" + appointmentId + ")'>Remove Appointment</button></td></tr>";            
                 } else {
-                    table += "<tr><td>" + v.titel + "</td><td>" + v.ort + "</td><td>" + v.ablaufDatum + "</td><td id='column"+appointmentId+"'><button id='button"+appointmentId+"' class='choose-btn' onclick='getDates(" + appointmentId + ")'>Show Dates</button></td><td><button id='removeButton"+appointmentId+"' class='remove-btn' onclick='removeAppointment(" + appointmentId + ")'>Remove Appointment</button></td></tr>";            
+                    table += "<tr><td>" + v.titel + "</td><td>" + v.ort + "</td><td>" + v.ablaufDatum + "</td><td id='column"+appointmentId+"'><button id='button"+appointmentId+"' class='choose-btn' onclick='getDates(" + appointmentId +",\""+ appointmentTitel + "\")'>Show Dates</button></td><td><button id='removeButton"+appointmentId+"' class='remove-btn' onclick='removeAppointment(" + appointmentId + ")'>Remove Appointment</button></td></tr>";           
                 }
             });
             table += "</tbody></table>";

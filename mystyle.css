@@ -27,4 +27,116 @@ td {
 tr:nth-child(even) {
     background-color: #f9f9f9;
 }
+
+
+/* ---------------------------------------------- */
+
+/* Set some global styles */
+body {
+font-family: Arial, sans-serif;
+font-size: 16px;
+line-height: 1.5;
+background-color: #f7f7f7;
+}
+
+.container {
+max-width: 1200px;
+margin: 0 auto;
+padding: 20px;
+}
+
+/* Style the appointment list */
+#appointmentList {
+background-color: #fff;
+padding: 20px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#appointmentList h2 {
+font-size: 28px;
+margin-top: 0;
+}
+
+#appointmentList ul {
+list-style: none;
+margin: 0;
+padding: 0;
+}
+
+#appointmentList li {
+margin-bottom: 10px;
+padding: 10px;
+background-color: #f2f2f2;
+border-radius: 5px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#appointmentList li h3 {
+font-size: 24px;
+margin-top: 0;
+}
+
+#appointmentList li p {
+margin-bottom: 0;
+}
+
+/* Style the add appointment fields */
+#appointmentInputFields {
+background-color: #fff;
+padding: 20px;
+margin-top: 20px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#appointmentInputFields label {
+font-size: 18px;
+}
+
+#appointmentInputFields input {
+margin-bottom: 20px;
+font-size: 16px;
+padding: 10px;
+border-radius: 5px;
+border: 1px solid #ccc;
+}
+
+#addRowButton,
+#addAppointmentButton {
+display: inline-block;
+margin-right: 10px;
+padding: 10px;
+font-size: 18px;
+color: #fff;
+background-color: #007bff;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+}
+
+#addRowButton:hover,
+#addAppointmentButton:hover {
+background-color: #0069d9;
+}
+
+/* Responsive styles */
+@media only screen and (max-width: 768px) {
+#appointmentList li h3 {
+    font-size: 20px;
+}
+
+#appointmentInputFields label {
+    font-size: 16px;
+}
+
+#appointmentInputFields input {
+    font-size: 14px;
+}
+
+#addRowButton,
+#addAppointmentButton {
+    font-size: 16px;
+    padding: 8px;
+}
+}
+  
   
