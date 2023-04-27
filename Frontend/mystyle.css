@@ -8,20 +8,23 @@ table {
     font-family: Arial, sans-serif;
     font-size: 14px;
     color: #333;
-  }
-  
+}
+
 /* Style for table header cells */
 th {
     background-color: #f2f2f2;
     border: 1px solid #ddd;
-    padding: 10px;
+    padding: 15px;
+    font-size: 16px; /*change this font-size*/
 }
-
+  
 /* Style for table body cells */
 td {
     border: 1px solid #ddd;
-    padding: 10px;
+    padding: 15px;
+    font-size: 14px; /*change this font-size*/
 }
+  
 
 /* Style for even rows */
 tr:nth-child(even) {
@@ -33,86 +36,89 @@ tr:nth-child(even) {
 
 /* Set some global styles */
 body {
-font-family: Arial, sans-serif;
-font-size: 16px;
-line-height: 1.5;
-background-color: #f7f7f7;
+    font-family: 'Helvetica', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: #f7f7f7;
 }
 
 .container {
-max-width: 1200px;
-margin: 0 auto;
-padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
 #history p{
     padding-top: 30px;
     padding-right: 30px;
     padding-left: 30px;
+    margin-bottom: 20px;
 }
-
+  
 #history table{
     padding-bottom: 30px;
     padding-right: 30px;
     padding-left: 30px;
+    margin-bottom: 40px; 
 }
+  
 
 /* Style the appointment list */
 #appointmentList {
-background-color: #fff;
-padding: 20px;
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f2f2f2;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #appointmentInputFields label {
-font-size: 18px;
+    font-size: 14px; /*change this font-size*/
+    margin-bottom: 5px; 
 }
-
+  
 #appointmentInputFields input {
-margin-bottom: 20px;
-font-size: 16px;
-padding: 10px;
-border-radius: 5px;
-border: 1px solid #ccc;
+    margin-bottom: 10px;
+    font-size: 14px; /*change this font-size*/
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
 #addRowButton,
 #addAppointmentButton {
-display: inline-block;
-margin-right: 10px;
-padding: 10px;
-font-size: 18px;
-color: #fff;
-background-color: #007bff;
-border: none;
-border-radius: 5px;
-cursor: pointer;
+  display: inline-block;
+  margin-right: 10px;
+  padding: 10px;
+  font-size: 18px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 #addRowButton:hover,
 #addAppointmentButton:hover {
-background-color: #0069d9;
+    background-color: #0069d9;
 }
+
 
 /* Responsive styles */
 @media only screen and (max-width: 768px) {
-#appointmentList li h3 {
-    font-size: 20px;
-}
+    #appointmentInputFields label {
+        font-size: 16px;
+    }
 
-#appointmentInputFields label {
-    font-size: 16px;
-}
+    #appointmentInputFields input {
+        font-size: 14px;
+    }
 
-#appointmentInputFields input {
-    font-size: 14px;
-}
-
-#addRowButton,
-#addAppointmentButton {
-    font-size: 16px;
-    padding: 8px;
-}
+    #addRowButton,
+    #addAppointmentButton {
+        font-size: 16px;
+        padding: 8px;
+    }
 }
   
   
