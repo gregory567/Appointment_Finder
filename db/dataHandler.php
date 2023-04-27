@@ -4,15 +4,6 @@ include("./models/termin.php");
 include("./models/history.php");
 require_once("./db/dbaccess.php");
 
-
-/*
-INSERT INTO `Appointment` (`Titel`, `Ort`, `Ablaufdatum`) VALUES ('Fussball Training', 'Platz 1', '2023-04-30');
-INSERT INTO `Appointment` (`Titel`, `Ort`, `Ablaufdatum`) VALUES ('Buchbörse', 'Bibliothek', '2023-04-30');
-INSERT INTO `Appointment` (`Titel`, `Ort`, `Ablaufdatum`) VALUES ('Film', 'Kino', '2023-04-30');
-INSERT INTO `Appointment` (`Titel`, `Ort`, `Ablaufdatum`) VALUES ('Konzert', 'Konzerthaus', '2023-04-30');
-*/
-    
-
 class DataHandler
 {
     private $conn;
@@ -39,8 +30,12 @@ class DataHandler
     public function submitDates($data) {
 
         // check if username already exists for that appointment (same username can exist in different appointment but must be unique in each appointment)
-        $sql = "SELECT * FROM `Termin` JOIN `Gebucht` ON `Termin`.`Termin_ID` = `Gebucht`.`FK_Termin_ID` JOIN `User` ON `Gebucht`.`FK_User_ID` = `User`.`User_ID` WHERE `User`.`Username` = '" . $data['username'] . "' AND `Termin`.`FK_App_ID` = '" . $data['appId'] . "'";
-        $stmt = $this->conn ->prepare($sql);
+        $sql = "SELECT * FROM `Termin` 
+        JOIN `Gebucht` ON `Termin`.`Termin_ID` = `Gebucht`.`FK_Termin_ID` 
+        JOIN `User` ON `Gebucht`.`FK_User_ID` = `User`.`User_ID` 
+        WHERE `User`.`Username` = ? AND `Termin`.`FK_App_ID` = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("si", $data['username'], $data['appId']);
         $stmt->execute();
         $res = $stmt->get_result();
         $row = $res->fetch_array();
@@ -52,13 +47,14 @@ class DataHandler
         } else {
 
             //create user table via prepared statements
-            $sql= "INSERT INTO `User` (`Username`,`FK_App_ID`) VALUES(?,?)";
+            $sql= "INSERT INTO `User` (`Username`,`FK_App_ID`) VALUES (?,?)";
             $stmt = $this->conn ->prepare($sql);
             $stmt->bind_param("si", $data["username"],$data["appId"]);
             $stmt->execute();
 
             //get user ID of the just created username by selecting the row with the highest user id
-            $sql = "SELECT * FROM `User` WHERE `User`.`Username` = ? AND `User`.`User_ID` = (SELECT MAX(`User_ID`) FROM `User` WHERE `User`.`Username` = ?)";
+            $sql = "SELECT * FROM `User` WHERE `User`.`Username` = ? AND `User`.`User_ID` = (SELECT MAX(`User_ID`) FROM `User` 
+            WHERE `User`.`Username` = ?)";
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param("ss", $data['username'], $data['username']);
             $stmt->execute();
@@ -106,16 +102,13 @@ class DataHandler
 
     //queries all dates to a specific appointment id
     public function queryDates($App_ID) {
-        //Join über alle Tabellen
-        $sql = "SELECT *  FROM Termin WHERE FK_App_ID = $App_ID";
-        //$sql= "SELECT  `Termin_ID`,`Datum`, `Uhrzeit_von`,`Uhrzeit_bis`,`Termin`.`FK_App_ID`, count(*) AS `Count` FROM `Appointment` JOIN `Termin` ON `Appointment`.`App_ID` = `Termin`.`FK_App_ID` JOIN `Gebucht` ON `Termin`.`Termin_ID`= `Gebucht`.`FK_Termin_ID` JOIN `User` ON `Gebucht`.`FK_User_ID` = `User`.`User_ID` JOIN `Kommentiert` ON `User`.`User_ID`= `Kommentiert`.`FK_User_ID`  WHERE `Appointment`.`App_ID` = $App_ID GROUP BY `Termin`.`Termin_ID`";
-
-        //$sql = "SELECT count(*)  FROM `Appointment` JOIN `Termin` ON `Appointment`.`App_ID` = `Termin`.`FK_App_ID` JOIN `Gebucht` ON `Termin`.`Termin_ID`= `Gebucht`.`FK_Termin_ID` JOIN `User` ON `Gebucht`.`FK_User_ID` = `User`.`User_ID` JOIN `Kommentiert` ON `User`.`User_ID`= `Kommentiert`.`FK_User_ID`  WHERE `Appointment`.`App_ID` = $App_ID";
-        $stmt = $this->conn ->prepare($sql);
+        $sql = "SELECT * FROM Termin WHERE FK_App_ID = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $App_ID);
         $stmt->execute();
         $res = $stmt->get_result();
-
         $result = array();
+        
         while ($row = $res->fetch_assoc()) {
             $termin = new Termin($row['Termin_ID'], $row['Datum'], $row['Uhrzeit_von'], $row['Uhrzeit_bis'],$row['FK_App_ID']);
             array_push($result, $termin);
@@ -126,7 +119,12 @@ class DataHandler
     //queries all selected user dates, comments from a specific appointment
     public function queryHistory($App_ID) {
         //selects all data 
-        $sql ="SELECT `Termin_ID`, `Datum`, `Uhrzeit_von`, `Uhrzeit_bis`, `Termin`.`FK_App_ID`, `User`.`Username`,`Kommentiert`.`Kommentar` FROM `Appointment` JOIN `Termin` ON `Appointment`.`App_ID` = `Termin`.`FK_App_ID` JOIN `Gebucht` ON `Termin`.`Termin_ID`= `Gebucht`.`FK_Termin_ID` JOIN `User` ON `Gebucht`.`FK_User_ID` = `User`.`User_ID` LEFT JOIN `Kommentiert` ON `User`.`User_ID`= `Kommentiert`.`FK_User_ID` WHERE `Appointment`.`App_ID` = $App_ID GROUP BY `Termin`.`Termin_ID`"; 
+        $sql ="SELECT `Termin_ID`, `Datum`, `Uhrzeit_von`, `Uhrzeit_bis`, `Termin`.`FK_App_ID`, `User`.`Username`,`Kommentiert`.`Kommentar` FROM `Appointment` 
+        JOIN `Termin` ON `Appointment`.`App_ID` = `Termin`.`FK_App_ID` 
+        JOIN `Gebucht` ON `Termin`.`Termin_ID`= `Gebucht`.`FK_Termin_ID` 
+        JOIN `User` ON `Gebucht`.`FK_User_ID` = `User`.`User_ID` 
+        LEFT JOIN `Kommentiert` ON `User`.`User_ID`= `Kommentiert`.`FK_User_ID` 
+        WHERE `Appointment`.`App_ID` = $App_ID GROUP BY `Termin`.`Termin_ID`"; 
         $stmt = $this->conn ->prepare($sql);
         $stmt->execute();
         $res = $stmt->get_result();
@@ -184,21 +182,7 @@ class DataHandler
             $stmt->execute();
         }
         
-/*      FOR LOOP DOES NOT WORK HERE
-        for ($i = 0; $i < $length-1; $i++ ) {
-        
-           // error_log(($data["newDates"][$i][0]));
-           // error_log(($data["newDates"][$i][1]));
-           // error_log(($data["newDates"][$i][2]));
 
-            $dateInput= $data["newDates"][$i][2];
-            $fromInput= $data["newDates"][$i][3];
-            $untilInput= $data["newDates"][$i][4];
-
-            $stmt->bind_param("sssi", $dateInput,$fromInput,$untilInput,$App_ID);
-            $stmt->execute();
-        }
-*/ 
         $successMessage = "Appointment created successfully!";
         return $successMessage;
     }
