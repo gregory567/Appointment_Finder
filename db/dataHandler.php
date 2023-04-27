@@ -4,6 +4,8 @@ include("./models/termin.php");
 include("./models/history.php");
 require_once("./db/dbaccess.php");
 
+//uses prepared statments to select or insert data into the db
+
 class DataHandler
 {
     private $conn;
@@ -30,8 +32,6 @@ class DataHandler
         $this->conn->close();
     }
 
-
-
     //inserts the selected user dates for a specific appointment into the db
     public function submitDates($data) {
 
@@ -40,6 +40,7 @@ class DataHandler
         JOIN `Gebucht` ON `Termin`.`Termin_ID` = `Gebucht`.`FK_Termin_ID` 
         JOIN `User` ON `Gebucht`.`FK_User_ID` = `User`.`User_ID` 
         WHERE `User`.`Username` = ? AND `Termin`.`FK_App_ID` = ?";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("si", $data['username'], $data['appId']);
         $stmt->execute();
@@ -83,9 +84,7 @@ class DataHandler
             $stmt->bind_param("iis", $User_ID, $data["appId"], $data["comment"]);
             $stmt->execute();
             return "Submitted.";
-   
         }
-        
     }
    
     //selects ALL appointments for overview onload
@@ -96,8 +95,8 @@ class DataHandler
         $stmt = $this->conn ->prepare($sql);
         $stmt->execute();
         $res = $stmt->get_result();
-
         $result = array();
+        //saves the result in an Appointment object that gets returned
         while ($row = $res->fetch_assoc()) {
             $appointment = new Appointment($row['App_ID'], $row['Titel'], $row['Ort'], $row['Ablaufdatum']);
             array_push($result, $appointment);
@@ -114,7 +113,7 @@ class DataHandler
         $stmt->execute();
         $res = $stmt->get_result();
         $result = array();
-        
+        //saves the result in a Termin object that gets returned
         while ($row = $res->fetch_assoc()) {
             $termin = new Termin($row['Termin_ID'], $row['Datum'], $row['Uhrzeit_von'], $row['Uhrzeit_bis'],$row['FK_App_ID']);
             array_push($result, $termin);
@@ -122,9 +121,8 @@ class DataHandler
         return $result;
     }
 
-    //queries all selected user dates, comments from a specific appointment
+    //queries all the selected user dates and comments from a specific appointment for a specific user
     public function queryHistory($App_ID) {
-        //selects all data 
         $sql = "SELECT Termin.*, User.Username, Kommentiert.Kommentar
         FROM `Termin`
         JOIN `Gebucht` ON `Termin`.`Termin_ID` = `Gebucht`.`FK_Termin_ID`
@@ -135,8 +133,8 @@ class DataHandler
         $stmt = $this->conn ->prepare($sql);
         $stmt->execute();
         $res = $stmt->get_result();
-
         $result = array();
+        //saves the result in a History object that gets returned
         while ($row = $res->fetch_assoc()) {
             $history = new History($row['Termin_ID'], $row['Datum'], $row['Uhrzeit_von'], $row['Uhrzeit_bis'],$row['FK_App_ID'], $row['Username'],$row['Kommentar']);
             array_push($result, $history);
@@ -144,7 +142,7 @@ class DataHandler
         return $result;
     }
     
-    //removes the appointment by first deleted the date references and then the appointment
+    //removes the appointment (due to the constraints alle dependencies are deleted as well (entries in kommentiert, user, gebucht, termin)
     public function removeAppointment($App_ID){
 
         $sql = "DELETE FROM `Appointment` WHERE `App_ID` = $App_ID";
@@ -175,8 +173,8 @@ class DataHandler
         //prepares for inserting dates into db
         $sql= "INSERT INTO `Termin` (`Datum`,`Uhrzeit_von`,`Uhrzeit_bis`,`FK_App_ID`) VALUES(?,?,?,?)";
         $stmt = $this->conn ->prepare($sql);
+
         //iterates through data and gets each date and insterts it into the "Termin" table (for loop does no work here because phparrayindexes are different somehow)
-        
         //adds each date into the "Termin" table with the newly created appointment ID
         foreach ($data["newDates"] as $newDate) {
             $dateInput = $newDate[0];
@@ -187,7 +185,6 @@ class DataHandler
             $stmt->execute();
         }
         
-
         $successMessage = "Appointment created successfully!";
         return $successMessage;
     }
