@@ -82,18 +82,24 @@ function submitDates(appId) {
 
 //loads and shows available dates of the chosen appointment and the history of the appointment after the "Show Dates" button is clicked
 function getDates(appId, appTitel) {
-
     var button = $('#button'+appId);
     console.log(button);
+   
     
     var table = $('#table'+appId);
     var column = $('#column'+appId);
+    //column.empty();
+    column.prepend(button);
+    //button.nextAll().remove();
+    
     var history = $('#history');
     var inputUsername = $("<input>").attr({
         "type":"text",
         "id":"username"+appId,
         "placeholder":"Enter username"
     });
+    inputUsername = $("<br>").add(inputUsername); 
+    console.log(inputUsername);
     var inputComment = $("<textarea>").attr({
         "id":"comment"+appId,
         "rows": 4,
@@ -101,6 +107,13 @@ function getDates(appId, appTitel) {
         "placeholder":"Enter comment here..."
 
     });
+
+    // remove existing <br> elements (otherwise the <br> elements get added kumulatively)
+    column.find('br').remove();
+    
+
+    inputComment = $("<br>").add(inputComment);
+
     var username = $('#username'+appId);
     var comment = $('#comment'+appId);
 
@@ -108,10 +121,11 @@ function getDates(appId, appTitel) {
         "id":"submit"+appId,
         "onclick":"submitDates("+ appId +")"
     });
+    submit = $("<br>").add(submit);
     submit.text("Submit");
 
     var submitButton =$('#submit'+appId);
-
+     
 
     //if the dates are visible ->hide and change button name and deleted history
     if (table.is(":visible")) {
