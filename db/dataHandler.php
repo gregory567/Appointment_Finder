@@ -119,12 +119,20 @@ class DataHandler
     //queries all selected user dates, comments from a specific appointment
     public function queryHistory($App_ID) {
         //selects all data 
+        /*
         $sql ="SELECT `Termin_ID`, `Datum`, `Uhrzeit_von`, `Uhrzeit_bis`, `Termin`.`FK_App_ID`, `User`.`Username`,`Kommentiert`.`Kommentar` FROM `Appointment` 
         JOIN `Termin` ON `Appointment`.`App_ID` = `Termin`.`FK_App_ID` 
         JOIN `Gebucht` ON `Termin`.`Termin_ID`= `Gebucht`.`FK_Termin_ID` 
         JOIN `User` ON `Gebucht`.`FK_User_ID` = `User`.`User_ID` 
         LEFT JOIN `Kommentiert` ON `User`.`User_ID`= `Kommentiert`.`FK_User_ID` 
         WHERE `Appointment`.`App_ID` = $App_ID GROUP BY `Termin`.`Termin_ID`"; 
+        */
+        $sql = "SELECT `Termin`.`Termin_ID`, `Termin`.`Datum`, `Termin`.`Uhrzeit_von`, `Termin`.`Uhrzeit_bis`, `Termin`.`FK_App_ID`, `User`.`Username`, `Kommentiert`.`Kommentar`
+        FROM `User`
+        JOIN `Appointment` ON `User`.`FK_App_ID` = `Appointment`.`App_ID`
+        JOIN `Termin` ON `Appointment`.`App_ID` = `Termin`.`FK_App_ID`
+        LEFT JOIN `Kommentiert` ON `User`.`User_ID` = `Kommentiert`.`FK_User_ID` AND `Appointment`.`App_ID` = `Kommentiert`.`FK_App_ID`
+        WHERE `Appointment`.`App_ID` = $App_ID";
         $stmt = $this->conn ->prepare($sql);
         $stmt->execute();
         $res = $stmt->get_result();
