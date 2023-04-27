@@ -1,13 +1,17 @@
+
 //Starting point for JQuery init
 $(document).ready(function () {
     console.log("document loaded");
+    // call load appointment function when document is ready
     loadAllAppointments();
+    // hide the input mask for creating new appointment
     $("#addAppointmentInputFields").hide();
 });
 
 //sends selected dates to db
 function submitDates(appId) {
 
+    // we select the input fields for the username and the comments
     var username = $('#username'+appId).val();
     var comment = $('#comment'+appId).val();
 
@@ -19,10 +23,10 @@ function submitDates(appId) {
         var row = $(this).closest('tr'); // get the table row containing the checked checkbox
         var rowID = parseInt(row.attr('id'), 10); // parse the ID string into an integer
         console.log(row.attr('id'));
-        dates.push(rowID); // add the selected date to the array
+        dates.push(rowID); // add the ID of the selected date to the dates array
     });
 
-    // this object will hold the ID of the selected appointment, the selected dates for the appointment, 
+    // this object will hold the ID of the selected appointment, the IDs of the selected dates for the appointment, 
     // the name of the user, and the comment created by the user
     var data = {};
     data["appId"] = appId;
@@ -31,7 +35,7 @@ function submitDates(appId) {
     data["comment"] = comment;
     console.log(data);
 
-
+    // we send the data to the db via an ajax call
     $.ajax({
         type: "GET",
         url: "../serviceHandler.php",
@@ -72,9 +76,10 @@ function submitDates(appId) {
                 $(this).closest('.modal').remove(); // remove the modal from the DOM
             });
             //------------------------------------------------------------------------------------
+            // reload all appointments 
             loadAllAppointments();
         },
-        error: function(error) {
+        error: function(xhr, val, error) {
             console.log("Error: " + error);
         } 
     });
@@ -83,24 +88,27 @@ function submitDates(appId) {
 
 //loads and shows available dates of the chosen appointment and the history of the appointment after the "Show Dates" button is clicked
 function getDates(appId, appTitel) {
+
+    // search for the show dates button
     var button = $('#button'+appId);
     console.log(button);
    
-    
+    // search for the small table of the dates belonging to the appointment 
     var table = $('#table'+appId);
+    // search for the column of the large table (appointments) with the small dates table inside it
     var column = $('#column'+appId);
-    //column.empty();
     column.prepend(button);
-    //button.nextAll().remove();
     
+    // search for the history div 
     var history = $('#history');
+    // create the username input field 
     var inputUsername = $("<input>").attr({
         "type":"text",
         "id":"username"+appId,
         "placeholder":"Enter username"
     });
-    inputUsername = $("<br>").add(inputUsername); 
     console.log(inputUsername);
+    // create the comment input field 
     var inputComment = $("<textarea>").attr({
         "id":"comment"+appId,
         "rows": 4,
@@ -110,11 +118,14 @@ function getDates(appId, appTitel) {
 
     // remove existing <br> elements (otherwise the <br> elements get added cumulatively)
     column.find('br').remove();
+    inputUsername = $("<br>").add(inputUsername); 
     inputComment = $("<br>").add(inputComment);
 
+    // search for the username and the comment input fields
     var username = $('#username'+appId);
     var comment = $('#comment'+appId);
 
+    // create a submit button for sending the selected dates to the db
     var submit = $("<button>").attr({
         "id":"submit"+appId,
         "onclick":"submitDates("+ appId +")"
@@ -122,9 +133,10 @@ function getDates(appId, appTitel) {
     submit = $("<br>").add(submit);
     submit.text("Submit");
 
-    var submitButton =$('#submit'+appId);
+    // search for the submit button
+    var submitButton = $('#submit'+appId);
      
-    //if the dates are visible ->hide and change button name and deleted history
+    //if the dates are visible -> hide and change button name and deleted history
     if (table.is(":visible")) {
         table.toggle();
         username.toggle();
@@ -132,9 +144,9 @@ function getDates(appId, appTitel) {
         submitButton.toggle();
         button.text("Show Dates");
         history.empty();
-    //if dates are not visible make ajax call and show dates
+    //if dates are not visible make ajax call and show dates belonging to the appointment
     } else {
-        //ajax call to get da dates table
+        //ajax call to get the dates table
         $.ajax({
             type: "GET",
             url: "../serviceHandler.php",
@@ -159,17 +171,17 @@ function getDates(appId, appTitel) {
                 column.prepend("<br>");
                 column.prepend(inputUsername);
                 column.prepend("<br>");
-                column.prepend("<div>" + table + "</div>");
+                column.prepend(table);
                 button.text("Hide Dates");
                 console.log("date list ready");
              
             },
-            error: function(error) {
+            error: function(xhr, val, error) {
                 console.log("Error: " + error);
             } 
         });
 
-        //ajax call to get history (= information which dates user has selected and the user comment)
+        //ajax call to get history (= information which dates user has selected and the user comments)
         $.ajax({
             type: "GET",
             url: "../serviceHandler.php",
@@ -177,7 +189,7 @@ function getDates(appId, appTitel) {
             data: {method: "queryHistory", param: appId},
             dataType: "json",
             success: function (response) {
-                //create the history table and fill them with data
+                //create the history table and fill it with data
                 var historyTitle = "<p> History of Appointment " + appTitel + ":</p>";
                 var historyTable = "<table id='historyTable"+appId+"'><thead><tr><th>Datum</th><th>Von</th><th>Bis</th><th>Username</th><th>Kommentar</th></tr></thead><tbody>";
                 $.each(response, function(i, v) {
@@ -193,7 +205,7 @@ function getDates(appId, appTitel) {
                 console.log("date list ready");
              
             },
-            error: function(error) {
+            error: function(xhr, val, error) {
                 console.log("Error: " + error);
             } 
         });
@@ -203,7 +215,7 @@ function getDates(appId, appTitel) {
     }
 }
 
-
+// this is the corresponding onclick function to remove an appointment from the list
 function removeAppointment(appId){
 
     $.ajax({
@@ -240,10 +252,11 @@ function removeAppointment(appId){
                 $(this).closest('.modal').remove(); // remove the modal from the DOM
             });
 
+            // reload all remaining appointments
             loadAllAppointments();
             //----------------------------------------------------------------
         },
-        error: function(error) {
+        error: function(xhr, val, error) {
             console.log("Error: " + error);
         } 
     });
@@ -285,7 +298,7 @@ function loadAllAppointments() {
             $("#appointmentList").html(table);
             console.log("appointment list ready");
         },
-        error: function(error) {
+        error: function(xhr, val, error) {
             console.log("Error: " + error);
         }   
     });
@@ -300,12 +313,10 @@ function addAppointment() {
     var newAppointmentPlace =  $("#appointmentPlaceInput").val();
     var newAppointmentExpirationDate =  $("#appointmentExpirationDateInput").val();
 
-    //creates newDates array that stores the values of each row (inputfields for date)
+    //creates newDates array that stores the values of each row (input fields for date)
     var newDates = [];
-    //console.log(dateCounter);
 
     //adds the dates data as an array to the newDates array
-
     for (let i = 0; i < dateCounter; i++) {
         let dates = [];
         dates.push($('#datumInput'+i).val());
@@ -320,10 +331,9 @@ function addAppointment() {
     data["newAppointmentPlace"] = newAppointmentPlace;
     data["newAppointmentExpirationDate"] = newAppointmentExpirationDate;
     data["newDates"] = newDates;
-
     console.log(data);
  
-
+    // send the appointment to the db
     $.ajax({
         type: "GET",
         url: "../serviceHandler.php",
@@ -338,7 +348,7 @@ function addAppointment() {
             $("#appointmentPlaceInput").val('');
             $("#appointmentExpirationDateInput").val('');
 
-            toggleAddAppointmentFields();
+            $("#addAppointmentInputFields").fadeToggle();
             
             //---------------------------------------------------------------------
             // create the modal content with the response
@@ -382,16 +392,17 @@ function addAppointment() {
             console.log("addAppointment created!");
             
         },
-        error: function(error) {
+        error: function(xhr, val, error) {
             console.log("Error: " + error);
             
         } 
     });
 }
 
+// global variable to count the number of the dates that will be sent to the db
 var dateCounter = 1;
 
-//adds additional input fields to the add add appointment input box
+//adds additional input fields to the add appointment input box
 function addDate() {
     var newRow = $("<div>").addClass("mb-3");
     console.log(dateCounter);
@@ -416,9 +427,6 @@ function addDate() {
 }
 
 
-function toggleAddAppointmentFields() {
-    $("#addAppointmentInputFields").fadeToggle();
-}
 
 
 
