@@ -91,12 +91,14 @@ function getDates(appId, appTitel) {
     var history = $('#history');
     var inputUsername = $("<input>").attr({
         "type":"text",
-        "id":"username"+appId
+        "id":"username"+appId,
+        "placeholder":"Enter username"
     });
     var inputComment = $("<textarea>").attr({
         "id":"comment"+appId,
         "rows": 4,
-        "cols": 40
+        "cols": 40,
+        "placeholder":"Enter comment here..."
 
     });
     var username = $('#username'+appId);
@@ -140,8 +142,12 @@ function getDates(appId, appTitel) {
                 //adds the table to the dates column and changes button name
                
                 column.prepend(submit);
+                column.prepend("<br>");
                 column.prepend(inputComment);
+                column.prepend("<br>");
+                column.prepend("<br>");
                 column.prepend(inputUsername);
+                column.prepend("<br>");
                 column.prepend("<div>" + table + "</div>");
                 button.text("Hide Dates");
                 console.log("date list ready");
