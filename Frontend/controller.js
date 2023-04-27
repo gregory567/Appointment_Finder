@@ -34,7 +34,7 @@ function submitDates(appId) {
 
     $.ajax({
         type: "GET",
-        url: "./serviceHandler.php",
+        url: "../serviceHandler.php",
         cache: false,
         data: {method: "submitDates", param: data},
         dataType: "json",
