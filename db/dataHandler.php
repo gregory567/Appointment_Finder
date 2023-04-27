@@ -127,12 +127,29 @@ class DataHandler
         LEFT JOIN `Kommentiert` ON `User`.`User_ID`= `Kommentiert`.`FK_User_ID` 
         WHERE `Appointment`.`App_ID` = $App_ID GROUP BY `Termin`.`Termin_ID`"; 
         */
+        /*
         $sql = "SELECT `Termin`.`Termin_ID`, `Termin`.`Datum`, `Termin`.`Uhrzeit_von`, `Termin`.`Uhrzeit_bis`, `Termin`.`FK_App_ID`, `User`.`Username`, `Kommentiert`.`Kommentar`
         FROM `User`
         JOIN `Appointment` ON `User`.`FK_App_ID` = `Appointment`.`App_ID`
         JOIN `Termin` ON `Appointment`.`App_ID` = `Termin`.`FK_App_ID`
         LEFT JOIN `Kommentiert` ON `User`.`User_ID` = `Kommentiert`.`FK_User_ID` AND `Appointment`.`App_ID` = `Kommentiert`.`FK_App_ID`
         WHERE `Appointment`.`App_ID` = $App_ID";
+        */
+        /*
+        $sql = "SELECT `t`.*, `u`.`Username`
+        FROM `Termin` AS `t`
+        JOIN `Gebucht` AS `g` ON `g`.`FK_Termin_ID` = `t`.`Termin_ID`
+        JOIN `User` AS `u` ON `u`.`User_ID` = `g`.`FK_User_ID`
+        WHERE `t`.`FK_App_ID` = $App_ID";
+        */
+        $sql = "SELECT T.*, U.Username, K.Kommentar
+FROM `Termin` AS T
+JOIN `Gebucht` AS G ON T.`Termin_ID` = G.`FK_Termin_ID`
+JOIN `User` AS U ON G.`FK_User_ID` = U.`User_ID`
+JOIN `Kommentiert` AS K ON T.`FK_App_ID` = K.`FK_App_ID` AND U.`User_ID` = K.`FK_User_ID`
+WHERE T.`FK_App_ID` = $App_ID;";
+
+
         $stmt = $this->conn ->prepare($sql);
         $stmt->execute();
         $res = $stmt->get_result();
