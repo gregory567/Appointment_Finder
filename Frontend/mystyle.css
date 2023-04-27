@@ -50,6 +50,10 @@ body {
     border-radius: 5px;
 }
 
+#history{
+    padding: 5px;
+}
+
 #history p{
     padding-top: 30px;
     padding-right: 30px;
@@ -104,14 +108,14 @@ body {
 
 #addRowButton:hover,
 #addAppointmentButton:hover {
-    background-color: #0069d9;
+    background-color: #00365f; /* even darker shade on hover */
 }
 
 button {
     padding: 6px 10px;
     font-size: 14px;
     color: #fff;
-    background-color: #004e8c; /* darker shade of blue */
+    background-color: #007bff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -124,45 +128,54 @@ button:hover {
 
 /* Media queries for smaller screens */
 @media only screen and (max-width: 768px) {
-/* Adjust font sizes */
-body {
-font-size: 14px;
-}
-th {
-font-size: 14px;
-}
-td {
-font-size: 12px;
-}
-#addRowButton,
-#addAppointmentButton {
-font-size: 16px;
-padding: 8px;
-}
-button {
-font-size: 12px;
-}
-/* Adjust layout for appointment form */
-#appointmentInputFields label {
-font-size: 16px;
-}
-#appointmentInputFields input {
-font-size: 14px;
-}
-/* Make the table scrollable */
-table {
-display: block;
-overflow-x: auto;
-white-space: nowrap;
-}
-/* Reduce padding for container */
-.container {
-padding: 20px;
-}
-/* Adjust layout for appointment list */
-#appointmentList {
-    padding: 10px;
+    /* Adjust font sizes */
+    body {
+        font-size: 14px;
     }
+
+    th {
+        font-size: 14px;
     }
+
+    td {
+        font-size: 12px;
+    }
+
+    #addRowButton,
+    #addAppointmentButton {
+        font-size: 16px;
+        padding: 8px;
+    }
+
+    button {
+        font-size: 12px;
+    }
+
+    /* Adjust layout for appointment form */
+    #appointmentInputFields label {
+        font-size: 16px;
+    }
+
+    #appointmentInputFields input {
+        font-size: 14px;
+    }
+
+    /* Make the table scrollable */
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    /* Reduce padding for container */
+    .container {
+        padding: 20px;
+    }
+
+    /* Adjust layout for appointment list */
+    #appointmentList {
+        padding: 10px;
+    }
+}
   
   

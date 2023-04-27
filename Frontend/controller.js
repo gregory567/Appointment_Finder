@@ -105,13 +105,10 @@ function getDates(appId, appTitel) {
         "rows": 4,
         "cols": 40,
         "placeholder":"Enter comment here..."
-
     });
 
-    // remove existing <br> elements (otherwise the <br> elements get added kumulatively)
+    // remove existing <br> elements (otherwise the <br> elements get added cumulatively)
     column.find('br').remove();
-    
-
     inputComment = $("<br>").add(inputComment);
 
     var username = $('#username'+appId);
@@ -126,7 +123,6 @@ function getDates(appId, appTitel) {
 
     var submitButton =$('#submit'+appId);
      
-
     //if the dates are visible ->hide and change button name and deleted history
     if (table.is(":visible")) {
         table.toggle();
@@ -421,7 +417,7 @@ function addDate() {
 
 function toggleAddAppointmentFields() {
     $("#addAppointmentInputFields").fadeToggle();
-  }
+}
 
 
 
