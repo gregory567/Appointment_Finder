@@ -173,8 +173,7 @@ function getDates(appId, appTitel) {
                 column.prepend("<br>");
                 column.prepend(table);
                 button.text("Hide Dates");
-                console.log("date list ready");
-             
+                console.log("date list ready"); 
             },
             error: function(xhr, val, error) {
                 console.log("Error: " + error);
@@ -192,26 +191,23 @@ function getDates(appId, appTitel) {
                 //create the history table and fill it with data
                 var historyTitle = "<p> History of Appointment " + appTitel + ":</p>";
                 var historyTable = "<table id='historyTable"+appId+"'><thead><tr><th>Datum</th><th>Von</th><th>Bis</th><th>Username</th><th>Kommentar</th></tr></thead><tbody>";
+                
                 $.each(response, function(i, v) {
                     historyTable += "<tr id='"+v.Termin_ID+"'><td>" + v.Datum + "</td><td>" + v.Uhrzeit_von + "</td><td>" + v.Uhrzeit_bis +
                     "</td><td>" + v.Username + "</td><td>" + v.Kommentar + "</td></tr>";
-
                 });
+
                 historyTable += "</tbody></table>";
                 //adds the table to the dates column and changes button name
                 history.empty();
                 history.append(historyTitle);
                 history.append(historyTable);
                 console.log("date list ready");
-             
             },
             error: function(xhr, val, error) {
                 console.log("Error: " + error);
             } 
         });
-
-
- 
     }
 }
 
@@ -389,12 +385,10 @@ function addAppointment() {
             $("#uhrzeitVonInput0").val("");
             $("#uhrzeitBisInput0").val("");
 
-            console.log("addAppointment created!");
-            
+            console.log("addAppointment created!");   
         },
         error: function(xhr, val, error) {
             console.log("Error: " + error);
-            
         } 
     });
 }
