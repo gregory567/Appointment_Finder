@@ -13,56 +13,55 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" id="appointmentList">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="appointmentList">
             </div>
             
-            <div class="col-lg col-md col-sm-12 col-xs-12" id="history">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="history">
             </div>
         </div>
 
         <div class="row">
-            <button id='addAppointmentButton' class='choose-btn justify-content-center col-lg-8 col-md-8 col-sm-12 col-xs-12' onclick='toggleAddAppointmentFields()'>New Appointment</button>
-
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button id='addAppointmentButton' class='choose-btn justify-content-center' onclick='toggleAddAppointmentFields()'>New Appointment</button>
+            </div>
         </div>
 
-        <div class="row" id="appointmentInputFields">
-            <div class="row">
-                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" id="addAppointmentInputFields">
-                    <div class="mb-5">
-                        <label for="appointmentTitleInput" class="form-label">Appointment Title:</label>
-                        <input type="text" class="form-control" id="appointmentTitleInput" required>
-                    </div>
-                    <div class="mb-5">
-                        <label for="appointmentPlaceInput" class="form-label">Appointment Place:</label>
-                        <input type="text" class="form-control" id="appointmentPlaceInput" required>
-                    </div>
-                    <div class="mb-5">
-                        <label for="appointmentExpirationDateInput" class="form-label">Appointment Expiration Date:</label>
-                        <input type="date" class="form-control" id="appointmentExpirationDateInput" required>
-                    </div>
-                    <div class="mb-5">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="datumInput" class="form-label">Datum:</label>
-                                <input type="date" class="form-control" id="datumInput0" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="uhrzeitVonInput" class="form-label">Uhrzeit von:</label>
-                                <input type="time" class="form-control" id="uhrzeitVonInput0" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="uhrzeitBisInput" class="form-label">Uhrzeit bis:</label>
-                                <input type="time" class="form-control" id="uhrzeitBisInput0" required>
-                            </div>
+        <div class="row" >
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addAppointmentInputFields">
+                <div class="mb-5">
+                    <label for="appointmentTitleInput" class="form-label">Appointment Title:</label>
+                    <input type="text" class="form-control" id="appointmentTitleInput" required>
+                </div>
+                <div class="mb-5">
+                    <label for="appointmentPlaceInput" class="form-label">Appointment Place:</label>
+                    <input type="text" class="form-control" id="appointmentPlaceInput" required>
+                </div>
+                <div class="mb-5">
+                    <label for="appointmentExpirationDateInput" class="form-label">Appointment Expiration Date:</label>
+                    <input type="date" class="form-control" id="appointmentExpirationDateInput" required>
+                </div>
+                <div class="mb-5">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="datumInput" class="form-label">Datum:</label>
+                            <input type="date" class="form-control" id="datumInput0" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="uhrzeitVonInput" class="form-label">Uhrzeit von:</label>
+                            <input type="time" class="form-control" id="uhrzeitVonInput0" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="uhrzeitBisInput" class="form-label">Uhrzeit bis:</label>
+                            <input type="time" class="form-control" id="uhrzeitBisInput0" required>
                         </div>
                     </div>
-                    <div id="additionalRows"></div>
-                    <button id="addRowButton" class="choose-btn justify-content-center col-md-5" onclick="addDate()">Add Date</button>
-                    <button id="addAppointmentButton" class="choose-btn justify-content-center col-md-5" onclick="addAppointment()">Create</button>
-
                 </div>
+                <div id="additionalRows"></div>
+                <button id="addRowButton" class="choose-btn justify-content-center col-md-5" onclick="addDate()">Add Date</button>
+                <button id="addAppointmentButton" class="choose-btn justify-content-center col-md-5" onclick="addAppointment()">Create</button>
+
             </div>
-            
+
         </div>
     </div>
     
