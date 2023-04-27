@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 27, 2023 at 10:57 AM
+-- Generation Time: Apr 27, 2023 at 03:57 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -16,8 +16,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
-
-
 
 --
 -- Database: `Appointment_Finder`
@@ -47,9 +45,10 @@ CREATE TABLE `Appointment` (
 --
 
 INSERT INTO `Appointment` (`App_ID`, `Titel`, `Ort`, `Ablaufdatum`) VALUES
-(77, 'Film', 'Kino', '2023-04-30'),
-(78, 'Konzert', 'Konzerthaus', '2023-04-30'),
-(81, 'TestAppointment again', 'place1', '2023-04-29');
+(82, 'Fußball', 'Platz1', '2023-05-06'),
+(83, 'Kinobesuch', 'ApolloKino', '2023-05-05'),
+(84, 'Buchclub', 'Bibliothek', '2023-05-24'),
+(85, 'Theaterbesuch', 'Burgtheater', '2023-04-25');
 
 -- --------------------------------------------------------
 
@@ -74,14 +73,6 @@ CREATE TABLE `Gebucht` (
 --       `User` -> `User_ID`
 --
 
---
--- Dumping data for table `Gebucht`
---
-
-INSERT INTO `Gebucht` (`FK_Termin_ID`, `FK_User_ID`) VALUES
-(93, 31),
-(94, 31);
-
 -- --------------------------------------------------------
 
 --
@@ -105,13 +96,6 @@ CREATE TABLE `Kommentiert` (
 --   `FK_User_ID`
 --       `User` -> `User_ID`
 --
-
---
--- Dumping data for table `Kommentiert`
---
-
-INSERT INTO `Kommentiert` (`FK_User_ID`, `FK_App_ID`, `Kommentar`) VALUES
-(31, 81, 'simons testkommentar again');
 
 -- --------------------------------------------------------
 
@@ -140,8 +124,12 @@ CREATE TABLE `Termin` (
 --
 
 INSERT INTO `Termin` (`Termin_ID`, `Datum`, `Uhrzeit_von`, `Uhrzeit_bis`, `FK_App_ID`) VALUES
-(93, '2023-05-06', '14:14', '14:14', 81),
-(94, '2023-05-05', '14:14', '15:15', 81);
+(105, '2023-05-11', '16:00', '17:00', 82),
+(106, '2023-04-28', '18:00', '19:00', 83),
+(107, '2023-04-29', '16:00', '17:00', 83),
+(108, '2023-05-17', '17:00', '21:00', 84),
+(109, '2023-05-04', '10:00', '11:00', 84),
+(110, '2023-05-10', '13:14', '14:25', 84);
 
 -- --------------------------------------------------------
 
@@ -162,13 +150,6 @@ CREATE TABLE `User` (
 --   `FK_App_ID`
 --       `Appointment` -> `App_ID`
 --
-
---
--- Dumping data for table `User`
---
-
-INSERT INTO `User` (`User_ID`, `Username`, `FK_App_ID`) VALUES
-(31, 'Simon', 81);
 
 --
 -- Indexes for dumped tables
@@ -218,19 +199,19 @@ ALTER TABLE `User`
 -- AUTO_INCREMENT for table `Appointment`
 --
 ALTER TABLE `Appointment`
-  MODIFY `App_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `App_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
 
 --
 -- AUTO_INCREMENT for table `Termin`
 --
 ALTER TABLE `Termin`
-  MODIFY `Termin_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `Termin_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
 -- AUTO_INCREMENT for table `User`
 --
 ALTER TABLE `User`
-  MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- Constraints for dumped tables
@@ -262,7 +243,6 @@ ALTER TABLE `Termin`
 ALTER TABLE `User`
   ADD CONSTRAINT `constrFK_App_ID_User` FOREIGN KEY (`FK_App_ID`) REFERENCES `Appointment` (`App_ID`) ON DELETE CASCADE;
 COMMIT;
-
 
 
 GRANT ALL PRIVILEGES ON *.* TO `bif2webscriptinguser`@`localhost` IDENTIFIED BY PASSWORD '*4680BADAC6AB3959526F032A7B3A60C1EC163F9F' WITH GRANT OPTION;

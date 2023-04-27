@@ -11,7 +11,7 @@ class DataHandler
     private $user;
     private $password;
     private $database;
-
+   
     public function __construct($host, $user, $password, $database)
     {
         $this->host = $host;
@@ -25,6 +25,12 @@ class DataHandler
             exit();
         }
     }
+    //destructor closes db connection
+    public function __destruct() {
+        $this->conn->close();
+    }
+
+
 
     //inserts the selected user dates for a specific appointment into the db
     public function submitDates($data) {
@@ -142,12 +148,13 @@ class DataHandler
         JOIN `User` AS `u` ON `u`.`User_ID` = `g`.`FK_User_ID`
         WHERE `t`.`FK_App_ID` = $App_ID";
         */
-        $sql = "SELECT T.*, U.Username, K.Kommentar
-FROM `Termin` AS T
-JOIN `Gebucht` AS G ON T.`Termin_ID` = G.`FK_Termin_ID`
-JOIN `User` AS U ON G.`FK_User_ID` = U.`User_ID`
-JOIN `Kommentiert` AS K ON T.`FK_App_ID` = K.`FK_App_ID` AND U.`User_ID` = K.`FK_User_ID`
-WHERE T.`FK_App_ID` = $App_ID;";
+        $sql = "SELECT Termin.*, User.Username, Kommentiert.Kommentar
+        FROM `Termin`
+        JOIN `Gebucht` ON `Termin`.`Termin_ID` = `Gebucht`.`FK_Termin_ID`
+        JOIN `User` ON `Gebucht`.`FK_User_ID` = `User`.`User_ID`
+        JOIN `Kommentiert` ON `Termin`.`FK_App_ID` = `Kommentiert`.`FK_App_ID` AND `User`.`User_ID` = `Kommentiert`.`FK_User_ID`
+        WHERE `Termin`.`FK_App_ID` = $App_ID;";
+
 
 
         $stmt = $this->conn ->prepare($sql);
