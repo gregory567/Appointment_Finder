@@ -2,179 +2,208 @@
 
 /* Style for the table */
 table {
-    border-collapse: collapse;
-    width: 100%;
-    margin-top: 20px;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    color: #333;
+    border-collapse: collapse; /* set table border to collapse */
+    width: 100%; /* set table width to 100% */
+    margin-top: 20px; /* set top margin to 20px */
+    font-family: Arial, sans-serif; /* set font family */
+    font-size: 14px; /* set font size */
+    color: #333; /* set font color */
 }
 
 /* Style for table header cells */
 th {
-    background-color: #f2f2f2;
-    border: 1px solid #ddd;
-    padding: 15px;
-    font-size: 18px; /*change this font-size*/
+    background-color: #f2f2f2; /* set background color for header cells */
+    border: 1px solid #ddd; /* set border for header cells */
+    padding: 15px; /* set padding for header cells */
+    font-size: 18px; /* set font size for header cells */
 }
   
 /* Style for table body cells */
 td {
-    border: 1px solid #ddd;
-    padding: 15px;
-    font-size: 16px; /*change this font-size*/
+    border: 1px solid #ddd; /* set border for body cells */
+    padding: 15px; /* set padding for body cells */
+    font-size: 16px; /* set font size for body cells */
 }
   
-
 /* Style for even rows */
 tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #f9f9f9; /* set background color for even rows */
 }
-
 
 /* ---------------------------------------------- */
 
 /* Set some global styles */
 body {
-    font-family: 'Helvetica', sans-serif;
-    font-size: 16px;
-    line-height: 1.5;
-    background-color: #f7f7f7;
+    font-family: 'Helvetica', sans-serif; /* set font family */
+    font-size: 16px; /* set font size */
+    line-height: 1.5; /* set line height */
+    background-color: #f7f7f7; /* set background color */
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    max-width: 1200px; /* set maximum width to 1200px */
+    margin: 0 auto; /* center align horizontally */
+    padding: 40px; /* set padding */
+    border: 1px solid #ddd; /* set border */
+    border-radius: 5px; /* set border radius */
 }
 
 #history{
-    padding: 5px;
+    padding: 5px; /* set padding */
 }
 
 #history p{
-    padding-top: 30px;
-    padding-right: 30px;
-    padding-left: 30px;
-    margin-bottom: 20px;
+    padding-top: 30px; /* set padding top */
+    padding-right: 30px; /* set padding right */
+    padding-left: 30px; /* set padding left */
+    margin-bottom: 20px; /* set margin bottom */
 }
   
 #history table{
-    padding-bottom: 30px;
-    padding-right: 30px;
-    padding-left: 30px;
-    margin-bottom: 40px; 
+    padding-bottom: 30px; /* set padding bottom */
+    padding-right: 30px; /* set padding right */
+    padding-left: 30px; /* set padding left */
+    margin-bottom: 40px; /* set margin bottom */
 }
-  
 
 /* Style the appointment list */
 #appointmentList {
-    background-color: #f2f2f2;
-    padding: 20px;
-    margin-top: 40px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f2f2f2; /* set background color */
+    padding: 20px; /* set padding */
+    margin-top: 40px; /* set top margin */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* set box-shadow */
 }
 
 #appointmentInputFields label {
-    font-size: 16px;
-    margin-bottom: 10px;
-    padding-right: 10px;
-    display: inline-block;
+    font-size: 16px; /* set font size */
+    margin-bottom: 10px; /* set margin bottom */
+    padding-right: 10px; /* set padding right */
+    display: inline-block; /* display as inline-block */
 }
+
 
 #appointmentInputFields input {
+    /* Set the font size to 16 pixels */
     font-size: 16px;
+    /* Set the padding around the input field to 10 pixels */
     padding: 10px;
+    /* Set the border radius to 5 pixels */
     border-radius: 5px;
+    /* Set the border width to 1 pixel, the style to solid and the color to #ccc */
     border: 1px solid #ccc;
+    /* Set the display property to inline-block */
     display: inline-block;
+    /* Set the width to be 100% of the parent minus 140 pixels */
     width: calc(100% - 140px); /* adjust the width as necessary */
 }
-
+    
 #addRowButton,
 #addAppointmentButton {
-  display: inline-block;
-  margin-right: 20px;
-  padding: 12px 20px;
-  font-size: 18px;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#addRowButton:hover,
-#addAppointmentButton:hover {
-    background-color: #00365f; /* even darker shade on hover */
-}
-
-button {
-    padding: 6px 10px;
-    font-size: 14px;
+    /* Set the display property to inline-block */
+    display: inline-block;
+    /* Set the right margin to 20 pixels */
+    margin-right: 20px;
+    /* Set the padding to 12 pixels vertically and 20 pixels horizontally */
+    padding: 12px 20px;
+    /* Set the font size to 18 pixels */
+    font-size: 18px;
+    /* Set the text color to white */
     color: #fff;
+    /* Set the background color to #007bff */
     background-color: #007bff;
+    /* Remove the border */
     border: none;
+    /* Set the border radius to 5 pixels */
     border-radius: 5px;
+    /* Set the cursor to a pointer when hovering over the element */
     cursor: pointer;
 }
 
-button:hover {
+
+#addRowButton:hover,
+#addAppointmentButton:hover {
+    /* Set the background color to an even darker shade when hovering over the element */
     background-color: #00365f; /* even darker shade on hover */
 }
-
-
+    
+button {
+    /* Set the padding to 6 pixels vertically and 10 pixels horizontally */
+    padding: 6px 10px;
+    /* Set the font size to 14 pixels */
+    font-size: 14px;
+    /* Set the text color to white */
+    color: #fff;
+    /* Set the background color to #007bff */
+    background-color: #007bff;
+    /* Remove the border */
+    border: none;
+    /* Set the border radius to 5 pixels */
+    border-radius: 5px;
+    /* Set the cursor to a pointer when hovering over the element */
+    cursor: pointer;
+}
+    
+button:hover {
+    /* Set the background color to an even darker shade when hovering over the element */
+    background-color: #00365f; /* even darker shade on hover */
+}
+    
 /* Media queries for smaller screens */
 @media only screen and (max-width: 768px) {
     /* Adjust font sizes */
     body {
-        font-size: 14px;
+    /* Set the font size to 14 pixels */
+    font-size: 14px;
     }
 
     th {
+        /* Set the font size of table header cells to 14 pixels */
         font-size: 14px;
     }
-
+    
     td {
+        /* Set the font size of table data cells to 12 pixels */
         font-size: 12px;
     }
-
+    
     #addRowButton,
     #addAppointmentButton {
+        /* Set the font size to 16 pixels */
         font-size: 16px;
+        /* Set the padding to 8 pixels vertically and horizontally */
         padding: 8px;
     }
-
+    
     button {
+        /* Set the font size to 12 pixels */
         font-size: 12px;
     }
-
+    
     /* Adjust layout for appointment form */
     #appointmentInputFields label {
+        /* Set the font size to 16 pixels */
         font-size: 16px;
     }
 
     #appointmentInputFields input {
-        font-size: 14px;
+        font-size: 14px; /* Set the font size of input fields within #appointmentInputFields to 14 pixels */
     }
 
     /* Make the table scrollable */
     table {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
+        display: block; /* Change the display of table to block, which allows it to be given a specific width and height */
+        overflow-x: auto; /* Allow horizontal scrolling if the content exceeds the width of the table */
+        white-space: nowrap; /* Prevent text from wrapping within table cells */
     }
 
     /* Reduce padding for container */
     .container {
-        padding: 20px;
+        padding: 20px; /* Set the padding of .container to 20 pixels */
     }
 
     /* Adjust layout for appointment list */
     #appointmentList {
-        padding: 10px;
+        padding: 10px; /* Set the padding of #appointmentList to 10 pixels */
     }
 }
   
