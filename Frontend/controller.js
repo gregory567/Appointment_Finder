@@ -172,7 +172,7 @@ function getDates(appId, appTitel) {
                 //adds the table to the dates column and changes button name
                 history.empty();
                 history.append(historyTitle);
-                history.append("<div>" + historyTable + "</div>");
+                history.append(historyTable);
                 console.log("date list ready");
              
             },
