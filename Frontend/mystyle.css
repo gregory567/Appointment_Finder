@@ -15,14 +15,14 @@ th {
     background-color: #f2f2f2;
     border: 1px solid #ddd;
     padding: 15px;
-    font-size: 16px; /*change this font-size*/
+    font-size: 18px; /*change this font-size*/
 }
   
 /* Style for table body cells */
 td {
     border: 1px solid #ddd;
     padding: 15px;
-    font-size: 14px; /*change this font-size*/
+    font-size: 16px; /*change this font-size*/
 }
   
 
@@ -69,27 +69,31 @@ body {
 #appointmentList {
     background-color: #f2f2f2;
     padding: 20px;
+    margin-top: 40px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #appointmentInputFields label {
-    font-size: 14px; /*change this font-size*/
-    margin-bottom: 5px; 
-}
-  
-#appointmentInputFields input {
+    font-size: 16px;
     margin-bottom: 10px;
-    font-size: 14px; /*change this font-size*/
-    padding: 8px;
+    padding-right: 10px;
+    display: inline-block;
+}
+
+#appointmentInputFields input {
+    font-size: 16px;
+    padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
+    display: inline-block;
+    width: calc(100% - 140px); /* adjust the width as necessary */
 }
 
 #addRowButton,
 #addAppointmentButton {
   display: inline-block;
-  margin-right: 10px;
-  padding: 10px;
+  margin-right: 20px;
+  padding: 12px 20px;
   font-size: 18px;
   color: #fff;
   background-color: #007bff;
@@ -101,6 +105,20 @@ body {
 #addRowButton:hover,
 #addAppointmentButton:hover {
     background-color: #0069d9;
+}
+
+button {
+    padding: 6px 10px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #004e8c; /* darker shade of blue */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #00365f; /* even darker shade on hover */
 }
 
 
