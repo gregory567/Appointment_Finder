@@ -5,7 +5,7 @@ $(document).ready(function () {
     $("#addAppointmentInputFields").hide();
 });
 
-//sends checked dates to db
+//sends selected dates to db
 function submitDates(appId) {
 
     var username = $('#username'+appId).val();
@@ -72,6 +72,7 @@ function submitDates(appId) {
                 $(this).closest('.modal').remove(); // remove the modal from the DOM
             });
             //------------------------------------------------------------------------------------
+            loadAllAppointments();
         },
         error: function(error) {
             console.log("Error: " + error);
