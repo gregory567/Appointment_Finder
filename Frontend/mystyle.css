@@ -122,21 +122,47 @@ button:hover {
 }
 
 
-/* Responsive styles */
+/* Media queries for smaller screens */
 @media only screen and (max-width: 768px) {
-    #appointmentInputFields label {
-        font-size: 16px;
-    }
-
-    #appointmentInputFields input {
-        font-size: 14px;
-    }
-
-    #addRowButton,
-    #addAppointmentButton {
-        font-size: 16px;
-        padding: 8px;
-    }
+/* Adjust font sizes */
+body {
+font-size: 14px;
 }
+th {
+font-size: 14px;
+}
+td {
+font-size: 12px;
+}
+#addRowButton,
+#addAppointmentButton {
+font-size: 16px;
+padding: 8px;
+}
+button {
+font-size: 12px;
+}
+/* Adjust layout for appointment form */
+#appointmentInputFields label {
+font-size: 16px;
+}
+#appointmentInputFields input {
+font-size: 14px;
+}
+/* Make the table scrollable */
+table {
+display: block;
+overflow-x: auto;
+white-space: nowrap;
+}
+/* Reduce padding for container */
+.container {
+padding: 20px;
+}
+/* Adjust layout for appointment list */
+#appointmentList {
+    padding: 10px;
+    }
+    }
   
   
