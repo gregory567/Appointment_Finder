@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 26, 2023 at 12:12 PM
+-- Generation Time: Apr 27, 2023 at 10:57 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -17,9 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
+
+
 --
 -- Database: `Appointment_Finder`
 --
+CREATE DATABASE IF NOT EXISTS `Appointment_Finder` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `Appointment_Finder`;
 
 -- --------------------------------------------------------
 
@@ -35,13 +39,17 @@ CREATE TABLE `Appointment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- RELATIONSHIPS FOR TABLE `Appointment`:
+--
+
+--
 -- Dumping data for table `Appointment`
 --
 
 INSERT INTO `Appointment` (`App_ID`, `Titel`, `Ort`, `Ablaufdatum`) VALUES
-(76, 'Buchbörse', 'Bibliothek', '2023-04-30'),
 (77, 'Film', 'Kino', '2023-04-30'),
-(78, 'Konzert', 'Konzerthaus', '2023-04-30');
+(78, 'Konzert', 'Konzerthaus', '2023-04-30'),
+(81, 'TestAppointment again', 'place1', '2023-04-29');
 
 -- --------------------------------------------------------
 
@@ -54,6 +62,26 @@ CREATE TABLE `Gebucht` (
   `FK_User_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- RELATIONSHIPS FOR TABLE `Gebucht`:
+--   `FK_Termin_ID`
+--       `Termin` -> `Termin_ID`
+--   `FK_User_ID`
+--       `User` -> `User_ID`
+--   `FK_Termin_ID`
+--       `Termin` -> `Termin_ID`
+--   `FK_User_ID`
+--       `User` -> `User_ID`
+--
+
+--
+-- Dumping data for table `Gebucht`
+--
+
+INSERT INTO `Gebucht` (`FK_Termin_ID`, `FK_User_ID`) VALUES
+(93, 31),
+(94, 31);
+
 -- --------------------------------------------------------
 
 --
@@ -65,6 +93,25 @@ CREATE TABLE `Kommentiert` (
   `FK_App_ID` int(11) NOT NULL,
   `Kommentar` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- RELATIONSHIPS FOR TABLE `Kommentiert`:
+--   `FK_App_ID`
+--       `Appointment` -> `App_ID`
+--   `FK_User_ID`
+--       `User` -> `User_ID`
+--   `FK_App_ID`
+--       `Appointment` -> `App_ID`
+--   `FK_User_ID`
+--       `User` -> `User_ID`
+--
+
+--
+-- Dumping data for table `Kommentiert`
+--
+
+INSERT INTO `Kommentiert` (`FK_User_ID`, `FK_App_ID`, `Kommentar`) VALUES
+(31, 81, 'simons testkommentar again');
 
 -- --------------------------------------------------------
 
@@ -80,6 +127,22 @@ CREATE TABLE `Termin` (
   `FK_App_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- RELATIONSHIPS FOR TABLE `Termin`:
+--   `FK_App_ID`
+--       `Appointment` -> `App_ID`
+--   `FK_App_ID`
+--       `Appointment` -> `App_ID`
+--
+
+--
+-- Dumping data for table `Termin`
+--
+
+INSERT INTO `Termin` (`Termin_ID`, `Datum`, `Uhrzeit_von`, `Uhrzeit_bis`, `FK_App_ID`) VALUES
+(93, '2023-05-06', '14:14', '14:14', 81),
+(94, '2023-05-05', '14:14', '15:15', 81);
+
 -- --------------------------------------------------------
 
 --
@@ -91,6 +154,21 @@ CREATE TABLE `User` (
   `Username` varchar(50) NOT NULL,
   `FK_App_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- RELATIONSHIPS FOR TABLE `User`:
+--   `FK_App_ID`
+--       `Appointment` -> `App_ID`
+--   `FK_App_ID`
+--       `Appointment` -> `App_ID`
+--
+
+--
+-- Dumping data for table `User`
+--
+
+INSERT INTO `User` (`User_ID`, `Username`, `FK_App_ID`) VALUES
+(31, 'Simon', 81);
 
 --
 -- Indexes for dumped tables
@@ -140,19 +218,19 @@ ALTER TABLE `User`
 -- AUTO_INCREMENT for table `Appointment`
 --
 ALTER TABLE `Appointment`
-  MODIFY `App_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `App_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT for table `Termin`
 --
 ALTER TABLE `Termin`
-  MODIFY `Termin_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `Termin_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT for table `User`
 --
 ALTER TABLE `User`
-  MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- Constraints for dumped tables
@@ -184,6 +262,12 @@ ALTER TABLE `Termin`
 ALTER TABLE `User`
   ADD CONSTRAINT `constrFK_App_ID_User` FOREIGN KEY (`FK_App_ID`) REFERENCES `Appointment` (`App_ID`) ON DELETE CASCADE;
 COMMIT;
+
+
+
+GRANT ALL PRIVILEGES ON *.* TO `bif2webscriptinguser`@`localhost` IDENTIFIED BY PASSWORD '*4680BADAC6AB3959526F032A7B3A60C1EC163F9F' WITH GRANT OPTION;
+
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON `appointment\_finder`.* TO `bif2webscriptinguser`@`localhost`;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
