@@ -125,7 +125,7 @@ function getDates(appId) {
         //ajax call to get da dates table
         $.ajax({
             type: "GET",
-            url: "./serviceHandler.php",
+            url: "../serviceHandler.php",
             cache: false,
             data: {method: "queryDates", param: appId},
             dataType: "json",
@@ -156,7 +156,7 @@ function getDates(appId) {
         //ajax call to get history (= information which dates user has selected and the user comment)
         $.ajax({
             type: "GET",
-            url: "./serviceHandler.php",
+            url: "../serviceHandler.php",
             cache: false,
             data: {method: "queryHistory", param: appId},
             dataType: "json",
@@ -190,7 +190,7 @@ function removeAppointment(appId){
 
     $.ajax({
         type: "GET",
-        url: "./serviceHandler.php",
+        url: "../serviceHandler.php",
         cache: false,
         data: {method: "removeAppointment", param: appId},
         dataType: "json",
@@ -240,7 +240,7 @@ function loadAllAppointments() {
 
     $.ajax({
         type: "GET",
-        url: "./serviceHandler.php",
+        url: "../serviceHandler.php",
         cache: false,
         data: {method: "queryAppointments"},
         dataType: "json",
@@ -307,7 +307,7 @@ function addAppointment() {
 
     $.ajax({
         type: "GET",
-        url: "./serviceHandler.php",
+        url: "../serviceHandler.php",
         cache: false,
         data: {method: "addAppointment", param: data},
         dataType: "json",
