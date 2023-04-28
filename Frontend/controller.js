@@ -344,7 +344,7 @@ function addAppointment() {
             $("#appointmentPlaceInput").val('');
             $("#appointmentExpirationDateInput").val('');
 
-            $("#addAppointmentInputFields").fadeToggle();
+            toggleAddAppointmentFields();
             
             //---------------------------------------------------------------------
             // create the modal content with the response
@@ -418,6 +418,10 @@ function addDate() {
     );
     $("#additionalRows").append(newRow);
     dateCounter++;
+}
+
+function toggleAddAppointmentFields() {
+    $("#addAppointmentInputFields").fadeToggle();
 }
 
 
