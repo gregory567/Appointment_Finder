@@ -95,6 +95,7 @@ class DataHandler
         $sql = "SELECT * FROM `Appointment`";
         $stmt = $this->conn ->prepare($sql);
         $stmt->execute();
+
         $res = $stmt->get_result();
         $result = array();
         //saves the result in an Appointment object that gets returned
@@ -129,10 +130,12 @@ class DataHandler
         JOIN `Gebucht` ON `Termin`.`Termin_ID` = `Gebucht`.`FK_Termin_ID`
         JOIN `User` ON `Gebucht`.`FK_User_ID` = `User`.`User_ID`
         JOIN `Kommentiert` ON `Termin`.`FK_App_ID` = `Kommentiert`.`FK_App_ID` AND `User`.`User_ID` = `Kommentiert`.`FK_User_ID`
-        WHERE `Termin`.`FK_App_ID` = $App_ID;";
+        WHERE `Termin`.`FK_App_ID` = ?";
 
-        $stmt = $this->conn ->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $App_ID);
         $stmt->execute();
+
         $res = $stmt->get_result();
         $result = array();
         //saves the result in a History object that gets returned
@@ -146,8 +149,9 @@ class DataHandler
     //removes the appointment (due to the constraints all dependencies are deleted as well (entries in kommentiert, user, gebucht, termin))
     public function removeAppointment($App_ID){
 
-        $sql = "DELETE FROM `Appointment` WHERE `App_ID` = $App_ID";
-        $stmt = $this->conn ->prepare($sql);
+        $sql = "DELETE FROM `Appointment` WHERE `App_ID` = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $App_ID);
         $stmt->execute();
         $successMessage = "Appointment deleted successfully.";
         
