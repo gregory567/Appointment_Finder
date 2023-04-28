@@ -27,6 +27,7 @@ class DataHandler
             exit();
         }
     }
+
     //destructor closes db connection
     public function __destruct() {
         $this->conn->close();
@@ -53,7 +54,7 @@ class DataHandler
         //if user has not yet chosen a date /added a commment -> create new user and add entry in table "Gebucht" for the selected dates and create entry in table "Kommentiert" for the user comment
         } else {
 
-            //create user table via prepared statements
+            //insert into user table via prepared statements
             $sql= "INSERT INTO `User` (`Username`,`FK_App_ID`) VALUES (?,?)";
             $stmt = $this->conn ->prepare($sql);
             $stmt->bind_param("si", $data["username"],$data["appId"]);
@@ -142,7 +143,7 @@ class DataHandler
         return $result;
     }
     
-    //removes the appointment (due to the constraints alle dependencies are deleted as well (entries in kommentiert, user, gebucht, termin)
+    //removes the appointment (due to the constraints all dependencies are deleted as well (entries in kommentiert, user, gebucht, termin))
     public function removeAppointment($App_ID){
 
         $sql = "DELETE FROM `Appointment` WHERE `App_ID` = $App_ID";
@@ -159,7 +160,7 @@ class DataHandler
         //creates the new appointment
         $sql= "INSERT INTO `Appointment` (`Titel`,`Ort`,`Ablaufdatum`) VALUES(?,?,?)";
         $stmt = $this->conn ->prepare($sql);
-        $stmt->bind_param("sss", $data["newAppointmentTitle"], $data["newAppointmentPlace"],$data["newAppointmentExpirationDate"]);
+        $stmt->bind_param("sss", $data["newAppointmentTitle"], $data["newAppointmentPlace"], $data["newAppointmentExpirationDate"]);
         $stmt->execute();
 
         //selects the just created appointment by selecting the highest appointment ID
@@ -174,7 +175,7 @@ class DataHandler
         $sql= "INSERT INTO `Termin` (`Datum`,`Uhrzeit_von`,`Uhrzeit_bis`,`FK_App_ID`) VALUES(?,?,?,?)";
         $stmt = $this->conn ->prepare($sql);
 
-        //iterates through data and gets each date and insterts it into the "Termin" table (for loop does no work here because phparrayindexes are different somehow)
+        //iterates through data and gets each date and inserts it into the "Termin" table (for loop does no work here because phparrayindices are different somehow)
         //adds each date into the "Termin" table with the newly created appointment ID
         foreach ($data["newDates"] as $newDate) {
             $dateInput = $newDate[0];
